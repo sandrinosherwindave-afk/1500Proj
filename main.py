@@ -93,9 +93,6 @@ class Functions:
                                    bg = "black"
                                    )
             
-            
-            
-            
         nick_title.pack(side = "top", pady=20)
         nick_msg.pack(side = "top", pady = 10)
         result_label.config(text=f"Final Score: {self.score}/3", fg="white")
