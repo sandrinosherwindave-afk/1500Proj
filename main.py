@@ -86,8 +86,11 @@ class Functions:
                                       fg="white", 
                                       bg="black"
                                       )
-            nick_player = tk.Label(text = nick_player,
-                                   font = ("courier new", 9)
+            nick_player = tk.Label(root,
+                                   text = nick_model,
+                                   font = ("Courier New", 4),
+                                   fg = "white",
+                                   bg = "black"
                                    )
             
             
