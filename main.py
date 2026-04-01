@@ -102,7 +102,6 @@ class Functions:
         nick_player.pack(pady = 5)
         
         
-        
 quiz = Functions()
 
 btn = tk.Button(root,
