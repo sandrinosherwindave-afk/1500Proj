@@ -62,6 +62,7 @@ class Functions:
 
     def show_result(self):
         question_label.pack_forget()
+        character.pack_forget()
         entry.pack_forget()
         btn.pack_forget()
 
@@ -73,27 +74,31 @@ class Functions:
             msg = "You got John!"
         else:
             player = nick
-            final_title = tk.Label(root, 
-                                        text="RANK: ACHIEVER", 
+            nick_title = tk.Label(root, 
+                                        text="RANK: STREET SMART", 
                                         font=("Courier New", 20, "bold"), 
                                         fg="gold", 
                                         bg="black"
                                         )
-            final_msg = tk.Label(root, 
+            nick_msg = tk.Label(root, 
                                       text=f"Perfect! You unlocked Nick!",
                                       font = ("Courier New", 10),
                                       fg="white", 
                                       bg="black"
                                       )
+            nick_player = tk.Label(text = nick_player,
+                                   font = ("courier new", 9)
+                                   )
             
             
-        final_title.pack(side = "top", pady=20)
+            
+            
+        nick_title.pack(side = "top", pady=20)
+        nick_msg.pack(side = "top", pady = 10)
         result_label.config(text=f"Final Score: {self.score}/3", fg="white")
-        character.config(text = mary_player,
-                         fg = "white",
-                        bg = "black")
-        character.config.pack(side = "top", pady = 10)
-        result_label.config(text=f"Score: {self.score}/3\n{msg}")
+        nick_player.pack(pady = 5)
+        
+        
         
 quiz = Functions()
 

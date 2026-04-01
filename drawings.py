@@ -93,3 +93,6 @@ mary_player = r'''
 gpyy     \(\_\
   
 '''
+nick_player = r"""
+words
+"""
