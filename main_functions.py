@@ -1,6 +1,6 @@
 from characters import *
 from drawings import *
-
+import tkinter as tk
 
 class Functions:
     def __init__(self):
