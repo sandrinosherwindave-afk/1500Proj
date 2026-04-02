@@ -59,13 +59,14 @@ btn.config(command=lambda:
     quiz.next_question(entry, 
                        result_label, 
                        question_label, 
-                       character, 
+                       title, 
                        btn, 
                        root,
                        start_btn))
-root.bind("<Return>", lambda event: quiz.next_question(entry, result_label, question_label, character, btn, root))
+for key in ("<Return>", "<space>"):
+    root.bind(key, lambda event: quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn))
 
-character = tk.Label(root,
+title = tk.Label(root,
                     text = title ,
                     font = ("Courier New", 8),
                     fg = "white",
@@ -73,7 +74,7 @@ character = tk.Label(root,
                     )
 
 #Packing and Positioning
-character.pack(pady=30)
+title.pack(pady=30)
 question_label.pack(pady=20)
 entry.pack()
 result_label.pack(pady=10)
