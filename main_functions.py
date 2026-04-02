@@ -1,6 +1,7 @@
 from characters import *
 from drawings import *
 
+
 class Functions:
     def __init__(self):
         self.score = 0

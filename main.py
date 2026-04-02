@@ -18,7 +18,7 @@ question_label = tk.Label(root,
                           fg="white",
                           bg = "black"
                           )
-question_label.pack(pady=20)
+
 
 
 entry = tk.Entry(root,
@@ -27,7 +27,7 @@ entry = tk.Entry(root,
                  fg = "white",
 
                  )
-entry.pack()
+
 
 
 
@@ -38,10 +38,6 @@ result_label = tk.Label(
     fg="white",
     bg = "black"
 )
-result_label.pack(pady=10,)
-
-
-
 
 btn = tk.Button(root,
                 text=">-Submit-<",
@@ -51,17 +47,23 @@ btn = tk.Button(root,
                 fg = "white",
                 relief = "groove"
                 )
-btn.pack(pady=8)
+
 
 root.bind("<Return>", lambda event: quiz.next_question())
 
 character = tk.Label(root,
-                    text = dragon ,
+                    text = title ,
                     font = ("Courier New", 8),
                     fg = "white",
                     bg = "black"
                     )
+
+#Packing and Positioning
 character.pack(pady=30)
+question_label.pack(pady=20)
+entry.pack()
+result_label.pack(pady=10,)
+btn.pack(pady=8)
 
 
 # Start first question
