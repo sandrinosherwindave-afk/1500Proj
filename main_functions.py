@@ -35,12 +35,37 @@ class QuizFunctions:
         display_model = ""
 
         if self.score == 3:
-            player = mary
-            msg = "Perfect! You unlocked Mary!"
+            display_model = mary_model
+            display_text = "Perfect! You unlocked Mary!"
+            mary_title = tk.Label(root, 
+                                        text="RANK: ACHIEVER", 
+                                        font=("Courier New", 20, "bold"), 
+                                        fg="gold", 
+                                        bg="black")
+            mary_msg = tk.Label(root, 
+                                      text=display_text,
+                                      font = ("Courier New", 10),
+                                      fg="white", 
+                                      bg="black"
+                                      )
+            mary_player = tk.Label(root,
+                                   text = display_model,
+                                   font = ("Courier New", 14),
+                                   fg = "white",
+                                   bg = "black"
+                                   )
+            
+            mary_title.pack(pady = 3)
+            mary_msg.pack(pady = (0, 10))
+            result_label.config(text=f"Final Score: {self.score}/3", fg="white")
+            mary_player.place(x= 590, y = 192)
+            start_btn.pack(side = "top",pady = 4)
+            
         elif self.score == 2:
             player = john
-            msg = "You got John!"
-        else:
+            display_model = "You got John!"
+            
+        elif self.score == 0:
             display_model = nick_model
             display_text = "Sadly, you got Nick"
             nick_title = tk.Label(root, 
@@ -57,16 +82,17 @@ class QuizFunctions:
                                       )
             nick_player = tk.Label(root,
                                    text = display_model,
-                                   font = ("Courier New", 4),
+                                   font = ("Courier New", 14),
                                    fg = "white",
-                                   bg = "black"
+                                   bg = "black",
+                                   justify= tk.LEFT,
                                    )
             
-        nick_title.pack(pady = 3)
-        nick_msg.pack(pady = (0, 10))
-        result_label.config(text=f"Final Score: {self.score}/3", fg="white")
-        nick_player.place(x= 560, y = 192)
-        start_btn.pack(side = "top",pady = 4)
+            nick_title.pack(pady = 3)
+            nick_msg.pack(pady = (0, 10))
+            result_label.config(text=f"Final Score: {self.score}/3", fg="white")
+            nick_player.place(x= 660, y = 192)
+            start_btn.pack(side = "top",pady = 4)
         
         
         
