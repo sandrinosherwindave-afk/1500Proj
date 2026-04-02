@@ -2,6 +2,7 @@ from characters import *
 from drawings import *
 import tkinter as tk
 
+
 class Functions:
     def __init__(self):
         self.score = 0
@@ -31,6 +32,9 @@ class Functions:
         character.pack_forget()
         entry.pack_forget()
         btn.pack_forget()
+        
+        display_text = ""
+        display_model = ""
 
         if self.score == 3:
             player = mary
@@ -39,7 +43,8 @@ class Functions:
             player = john
             msg = "You got John!"
         else:
-            player = nick
+            display_model = nick_model
+            display_text = "Sadly, you got Nick"
             nick_title = tk.Label(root, 
                                         text="RANK: STREET SMART", 
                                         font=("Courier New", 20, "bold"), 
@@ -47,13 +52,13 @@ class Functions:
                                         bg="black"
                                         )
             nick_msg = tk.Label(root, 
-                                      text=f"Perfect! You unlocked Nick!",
+                                      text=display_text,
                                       font = ("Courier New", 10),
                                       fg="white", 
                                       bg="black"
                                       )
             nick_player = tk.Label(root,
-                                   text = nick_model,
+                                   text = display_model,
                                    font = ("Courier New", 4),
                                    fg = "white",
                                    bg = "black"
