@@ -25,7 +25,6 @@ entry = tk.Entry(root,
                  font=("Courier New", ),
                  bg = "black",
                  fg = "white",
-
                  )
 
 
@@ -48,8 +47,9 @@ btn = tk.Button(root,
                 relief = "groove"
                 )
 
+btn.config(command=lambda: quiz.next_question(entry, result_label, question_label, character, btn, root))
 
-root.bind("<Return>", lambda event: quiz.next_question())
+root.bind("<Return>", lambda event: quiz.next_question(entry, result_label, question_label, character, btn, root))
 
 character = tk.Label(root,
                     text = title ,
@@ -62,7 +62,7 @@ character = tk.Label(root,
 character.pack(pady=30)
 question_label.pack(pady=20)
 entry.pack()
-result_label.pack(pady=10,)
+result_label.pack(pady=10)
 btn.pack(pady=8)
 
 
