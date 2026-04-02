@@ -1,5 +1,7 @@
 import random
-import tkinter as tk
+from drawings import *
+
+# Damage range
 
 damage_range = {
     "High": (15, 20),
@@ -14,12 +16,17 @@ class Character:
         self.intelligence = intelligence
         self.luck = luck
         self.subjects = subjects
+        
 
     def get_damage(self, level):
         low, high = damage_range[level]
         return random.randint(low, high)
     
-    
+    def show_character(self):
+        pass
+
+
+   
 # Characters
 mary = Character("Mary", "Achiever", "High", 5, {})
 john = Character("John", "Athletic", "Low", 6, {})

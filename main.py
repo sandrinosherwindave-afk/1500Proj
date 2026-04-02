@@ -1,10 +1,11 @@
 import tkinter as tk
 from drawings import *
 from characters import *
-from main_functions import Functions
+from main_functions import QuizFunctions, StartFunctions
 
 
-quiz = Functions()
+quiz = QuizFunctions()
+start = StartFunctions()
 # Tkinter window
 root = tk.Tk()
 root.title("Quiz Game")
@@ -27,9 +28,6 @@ entry = tk.Entry(root,
                  fg = "white",
                  )
 
-
-
-
 result_label = tk.Label(
     root,
     text="",
@@ -47,8 +45,24 @@ btn = tk.Button(root,
                 relief = "groove"
                 )
 
-btn.config(command=lambda: quiz.next_question(entry, result_label, question_label, character, btn, root))
+start_btn = tk.Button(root,
+                      text = "Start Game",
+                      font = ("Courier New", 10),
+                      command = print("you fcking pressed it na"),
+                      bg = "black",
+                      fg ="white",
+                      relief= "groove")
 
+#Function Access from main_functions.py
+start_btn.config(command= lambda: start.start(start_btn))
+btn.config(command=lambda: 
+    quiz.next_question(entry, 
+                       result_label, 
+                       question_label, 
+                       character, 
+                       btn, 
+                       root,
+                       start_btn))
 root.bind("<Return>", lambda event: quiz.next_question(entry, result_label, question_label, character, btn, root))
 
 character = tk.Label(root,
