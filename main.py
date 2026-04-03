@@ -5,7 +5,7 @@ from main_functions import QuizFunctions, StartFunctions
 
 
 quiz = QuizFunctions()
-start = StartFunctions()
+start_game = StartFunctions()
 # Tkinter window
 root = tk.Tk()
 root.title("Quiz Game")
@@ -46,27 +46,10 @@ btn = tk.Button(root,
 start_btn = tk.Button(root,
                       text = "Start Game",
                       font = ("Courier New", 10),
-                      command = start.start,
+                      command = start_game.start,
                       bg = "black",
                       fg ="white",
                       relief= "groove")
-
-#Function Access from main_functions.py
-start_btn.config(command = lambda: 
-    start.start(start_btn, 
-                root,
-                title))
-root.bind("<Return>", lambda event:start.start(start_btn, root, title))
-
-btn.config(command=lambda: 
-    quiz.next_question(entry, 
-                       result_label, 
-                       question_label, 
-                       title, 
-                       btn, 
-                       root,
-                       start_btn))
-root.bind("<Return>", lambda event: quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn))
 
 
 title = tk.Label(root,
@@ -75,6 +58,28 @@ title = tk.Label(root,
                     fg = "white",
                     bg = "black"
                     )
+
+#Function Access from main_functions.py
+start_btn.config(command = lambda: 
+    start_game.start(start_btn, 
+                root,
+                title))
+btn.config(command=lambda: 
+    quiz.next_question(entry, 
+                       result_label, 
+                       question_label, 
+                       title, 
+                       btn, 
+                       root,
+                       start_btn))
+def handle_enter(event):
+    if start_btn.winfo_manager():
+        start_game.start(start_btn, root, title)
+    else:
+        quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn)
+
+root.bind("<Return>", handle_enter)
+
 
 
 #Packing and Positioning

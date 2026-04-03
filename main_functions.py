@@ -23,9 +23,9 @@ class QuizFunctions:
         if self.q_index < len(questions):
             question_label.config(text=questions[self.q_index][0])
         else:
-            self.show_result(question_label, title, entry, btn, root, result_label,start_btn)
+            self.show_result(question_label, title, entry, btn, root, result_label, start_btn)
 
-    def show_result(self, question_label, title, entry, btn, root, result_label,start_btn):
+    def show_result(self, question_label, title, entry, btn, root, result_label, start_btn):
         question_label.pack_forget()
         title.pack_forget()
         entry.pack_forget()
@@ -33,6 +33,7 @@ class QuizFunctions:
         
         display_text = ""
         display_model = ""
+        
 
         if self.score == 3:
             display_model = mary_model
@@ -89,10 +90,12 @@ class QuizFunctions:
                                    )
             
             nick_title.pack(pady = 3)
-            nick_msg.pack(pady = (0, 10))
             result_label.config(text=f"Final Score: {self.score}/3", fg="white")
             nick_player.place(x= 660, y = 192)
             start_btn.pack(side = "top",pady = 4)
+            
+            return nick_player.place(x= 660, y = 192)
+            
         
         
         
@@ -104,12 +107,13 @@ class StartFunctions:
         for widget in root.winfo_children():
             if isinstance(widget, tk.Label):
                 widget.pack_forget()
+                widget.place_forget()
 
     def start(self, start_btn, root, title):
         self.clear_labels(root)
         start_btn.pack_forget()
-        print("Labels cleared and game starting!")
+        title.pack(pady = 10)
         
-        title.pack()
+
         
         
