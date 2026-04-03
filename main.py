@@ -48,13 +48,13 @@ btn = tk.Button(root,
 start_btn = tk.Button(root,
                       text = "Start Game",
                       font = ("Courier New", 10),
-                      command = print("you fcking pressed it na"),
+                      command = start.start,
                       bg = "black",
                       fg ="white",
                       relief= "groove")
 
 #Function Access from main_functions.py
-start_btn.config(command= lambda: start.start(start_btn))
+
 btn.config(command=lambda: 
     quiz.next_question(entry, 
                        result_label, 

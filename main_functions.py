@@ -100,10 +100,15 @@ class StartFunctions:
     def __init__(self):
         self.quiz = QuizFunctions()
     
-    def start(self, start_btn):
+    def start(self):
         self.quiz.question_label.pack_forget()
         self.quiz.title.pack_forget()
         self.quiz.entry.pack_forget()
         self.quiz.btn.pack_forget()
+        
+        self.quiz.question_label.pack()
+        self.quiz.title.pack()
+        self.quiz.entry.pack()
+        self.quiz.btn.pack()
         
         
