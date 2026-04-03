@@ -20,8 +20,6 @@ question_label = tk.Label(root,
                           bg = "black"
                           )
 
-
-
 entry = tk.Entry(root,
                  font=("Courier New", ),
                  bg = "black",
@@ -54,6 +52,11 @@ start_btn = tk.Button(root,
                       relief= "groove")
 
 #Function Access from main_functions.py
+start_btn.config(command = lambda: 
+    start.start(start_btn, 
+                root,
+                title))
+root.bind("<Return>", lambda event:start.start(start_btn, root, title))
 
 btn.config(command=lambda: 
     quiz.next_question(entry, 
@@ -63,8 +66,8 @@ btn.config(command=lambda:
                        btn, 
                        root,
                        start_btn))
-for key in ("<Return>", "<space>"):
-    root.bind(key, lambda event: quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn))
+root.bind("<Return>", lambda event: quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn))
+
 
 title = tk.Label(root,
                     text = title ,
@@ -72,6 +75,7 @@ title = tk.Label(root,
                     fg = "white",
                     bg = "black"
                     )
+
 
 #Packing and Positioning
 title.pack(pady=30)

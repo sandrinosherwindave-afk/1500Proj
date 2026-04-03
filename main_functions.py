@@ -100,15 +100,16 @@ class StartFunctions:
     def __init__(self):
         self.quiz = QuizFunctions()
     
-    def start(self):
-        self.quiz.question_label.pack_forget()
-        self.quiz.title.pack_forget()
-        self.quiz.entry.pack_forget()
-        self.quiz.btn.pack_forget()
+    def clear_labels(self, root):
+        for widget in root.winfo_children():
+            if isinstance(widget, tk.Label):
+                widget.pack_forget()
+
+    def start(self, start_btn, root, title):
+        self.clear_labels(root)
+        start_btn.pack_forget()
+        print("Labels cleared and game starting!")
         
-        self.quiz.question_label.pack()
-        self.quiz.title.pack()
-        self.quiz.entry.pack()
-        self.quiz.btn.pack()
+        title.pack()
         
         
