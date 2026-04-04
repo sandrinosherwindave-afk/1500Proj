@@ -62,7 +62,14 @@ title = tk.Label(root,
 
 #Function Access from main_functions.py
 start_btn.config(command = lambda: 
-    start_game.start(start_btn, root, title, question_label, entry, btn, result_label))
+    start_game.start(start_btn,
+                     root, 
+                     title, 
+                     question_label, 
+                     entry, 
+                     btn, 
+                     result_label))
+
 btn.config(command=lambda: 
     quiz.next_question(entry, 
                        result_label, 
