@@ -34,7 +34,7 @@ class QuizFunctions:
         display_text = ""
         display_model = ""
         
-
+        
         if self.score == 3:
             display_model = mary_model
             display_text = "Perfect! You unlocked Mary!"
@@ -94,7 +94,6 @@ class QuizFunctions:
             nick_player.place(x= 660, y = 192)
             start_btn.pack(side = "top",pady = 4)
             
-            return nick_player.place(x= 660, y = 192)
             
         
         
@@ -102,17 +101,12 @@ class QuizFunctions:
 class StartFunctions:
     def __init__(self):
         self.quiz = QuizFunctions()
-    
-    def clear_labels(self, root):
-        for widget in root.winfo_children():
-            if isinstance(widget, tk.Label):
-                widget.pack_forget()
-                widget.place_forget()
+        self.last_score = -1 # Track the previous game's result
 
-    def start(self, start_btn, root, title):
-        self.clear_labels(root)
-        start_btn.pack_forget()
-        title.pack(pady = 10)
+    def start(self):
+        
+
+
         
 
         
