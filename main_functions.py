@@ -7,8 +7,8 @@ class QuizFunctions:
     def __init__(self):
         self.score = 0
         self.q_index = 0
-        self.current_model = "" 
-        self.model_title = ""
+        self.model_title = None     # Store the Rank Label
+        self.player_drawing = None   # Store the ASCII Label
     
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn):
         user = entry.get().lower()
@@ -32,8 +32,6 @@ class QuizFunctions:
         title.pack_forget()
         entry.pack_forget()
         btn.pack_forget()
-        
-        display_text = ""
               
         
         if self.score == 0:
@@ -43,7 +41,7 @@ class QuizFunctions:
                                         font=("Courier New", 20, "bold"), 
                                         fg="gold", 
                                         bg="black")
-            mary_player = tk.Label(root,
+            self.player_drawing = tk.Label(root,
                                    text = self.current_model,
                                    font = ("Courier New", 14),
                                    fg = "white",
@@ -52,7 +50,7 @@ class QuizFunctions:
             
             self.model_title.pack(pady = 3)
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Mary", fg="white")
-            mary_player.place(x= 590, y = 192)
+            self.player_drawing.place(x= 590, y = 192)
             start_btn.pack(side = "top",pady = 4)
             
         elif self.score == 2:
@@ -87,29 +85,33 @@ class QuizFunctions:
 class StartFunctions:
     def __init__(self):
         self.quiz = QuizFunctions()
+        self.settings_win = None
+
+    def start(self, start_btn, root, question_label, entry, btn, result_label):
+        root.iconify()
+
+        startgame_win = tk.Toplevel(root)
+        startgame_win.title("Settings")
+        startgame_win.geometry("400x300")
+        startgame_win.configure(bg="black")
+        startgame_win.state('zoomed')
+        def intro():
+            return f"Welcome to {title}"
         
-    def start(self, start_btn, root, title, question_label, entry, btn, result_label):
+
+        # Add widgets to the new window
+        label = tk.Label(startgame_win, 
+                        text= intro(), 
+                        font=("Courier New", 18), 
+                        fg="white", 
+                        bg="black")
+        
+        label.pack(pady = 20)
+        
+         
         
         
-        start_btn.pack_forget()
-        question_label.pack_forget()
-        result_label.pack_forget()
-        model = self.quiz.model_title
-        model.pack_forget()
-        self.quiz.current_model.place_forget()
         
-        
-        # 3. Create the display_model label
-        # Note: 'nick_model' or 'mary_model' must be passed or imported
-        display_label = tk.Label(root,
-                                 text=model_to_show, # Example: showing the Nick model
-                                 font=("Courier New", 14),
-                                 fg="white",
-                                 bg="black",
-                                 justify=tk.LEFT)
-        
-        # 4. Use .place() to put it where you want
-        title.pack(pady=30)
         
     
 

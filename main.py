@@ -63,12 +63,12 @@ title = tk.Label(root,
 #Function Access from main_functions.py
 start_btn.config(command = lambda: 
     start_game.start(start_btn,
-                     root, 
-                     title, 
+                     root,  
                      question_label, 
                      entry, 
                      btn, 
-                     result_label))
+                     result_label,
+                     title))
 
 btn.config(command=lambda: 
     quiz.next_question(entry, 
@@ -80,7 +80,7 @@ btn.config(command=lambda:
                        start_btn))
 def handle_enter(event):
     if start_btn.winfo_manager():
-        start_game.start(start_btn, root, title, question_label, entry, btn, result_label)
+        start_game.start(start_btn, root, question_label, entry, btn, result_label,)
     else:
         quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn)
 
