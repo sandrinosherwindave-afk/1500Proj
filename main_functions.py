@@ -82,31 +82,7 @@ class QuizFunctions:
         
         
         
-class StartFunctions:
-    def __init__(self):
-        self.quiz = QuizFunctions()
-        self.settings_win = None
 
-    def start(self, start_btn, root, question_label, entry, btn, result_label):
-        root.iconify()
-
-        startgame_win = tk.Toplevel(root)
-        startgame_win.title("Settings")
-        startgame_win.geometry("400x300")
-        startgame_win.configure(bg="black")
-        startgame_win.state('zoomed')
-        def intro():
-            return f"Welcome to {title}"
-        
-
-        # Add widgets to the new window
-        label = tk.Label(startgame_win, 
-                        text= intro(), 
-                        font=("Courier New", 18), 
-                        fg="white", 
-                        bg="black")
-        
-        label.pack(pady = 20)
         
          
         
