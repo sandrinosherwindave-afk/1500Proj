@@ -2,14 +2,13 @@ import tkinter as tk
 from drawings import *
 from main import start_quiz
 
+startgame_win = tk.Tk()
+startgame_win.title("Settings")
+startgame_win.geometry("400x300")
+startgame_win.configure(bg="black")
+startgame_win.state('zoomed')
 
 def start():
-    global startgame_win
-    startgame_win = tk.Tk()
-    startgame_win.title("Settings")
-    startgame_win.geometry("400x300")
-    startgame_win.configure(bg="black")
-    startgame_win.state('zoomed')
     def intro():
         return f"Welcome to {title}"
     
@@ -39,14 +38,28 @@ def start():
     relief= "groove"
     )    
     
+    quit_game = tk.Button(
+        startgame_win,
+        text = "Quit",
+        command = lambda: startgame_win.destroy(),
+        bg = "black",
+        fg = "white",
+        relief = "groove"
+        
+    )
     
-    
-    
+    startgame_win.bind("<Return>", lambda event: button_start.invoke())    
     label.pack(pady = 20)
     intro_story.pack(pady =10, padx= 5)
     
     start_animations(0, intro_story)
-    button_start.pack(pady = 10)
+    
+    button_start.config(command = lambda:
+        start_quiz(startgame_win))
+    startgame_win.after(4000, lambda: button_start.pack(pady = 20))
+    startgame_win.after(5000, lambda: quit_game.pack(pady = 5))
+
+    
     startgame_win.mainloop()
     
 
@@ -58,8 +71,6 @@ def start_animations(index, intro_story):
         intro_story.config(text=intro_story.cget("text") + fullintro_story[index])
         # Schedule the next character after 100ms
     startgame_win.after(50, lambda: start_animations(index + 1, intro_story))
-    
-
     
 start()
   

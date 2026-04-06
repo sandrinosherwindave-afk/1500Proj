@@ -2,8 +2,10 @@ import tkinter as tk
 from characters import *
 from main_functions import QuizFunctions
 
-def start_quiz():
+
+def start_quiz(startgame_win):
     from drawings import title
+    startgame_win.destroy()
     quiz = QuizFunctions()
     # Tkinter window
     root = tk.Tk()
@@ -44,7 +46,7 @@ def start_quiz():
                     )
 
     start_btn = tk.Button(root,
-                        text = "Start Game",
+                        text = "START",
                         font = ("Courier New", 10),
                         command = None,
                         bg = "black",
@@ -73,7 +75,13 @@ def start_quiz():
         if start_btn.winfo_manager():
             pass
         else:
-            quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn)
+            quiz.next_question(entry, 
+                               result_label, 
+                               question_label,
+                               title,
+                               btn, 
+                               root, 
+                               start_btn)
 
     root.bind("<Return>", handle_enter)
 
