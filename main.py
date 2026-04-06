@@ -1,98 +1,96 @@
 import tkinter as tk
-from drawings import *
+from start_functions import start
 from characters import *
 from main_functions import QuizFunctions
-from start_functions import *
+
+def start_quiz():
+    from drawings import title
+    quiz = QuizFunctions()
+    # Tkinter window
+    root = tk.Tk()
+    root.title("CCS Crawler")
+    root.state('zoomed')
+    root.configure(background="black")
 
 
-quiz = QuizFunctions()
-# Tkinter window
-root = tk.Tk()
-root.title("Quiz Game")
-root.state('zoomed')
-root.configure(background="black")
 
+    question_label = tk.Label(root,
+                            text="",
+                            font=("Courier New", 14,),
+                            fg="white",
+                            bg = "black"
+                            )
 
-
-question_label = tk.Label(root,
-                          text="",
-                          font=("Courier New", 14,),
-                          fg="white",
-                          bg = "black"
-                          )
-
-entry = tk.Entry(root,
-                 font=("Courier New", ),
-                 bg = "black",
-                 fg = "white",
-                 )
-
-result_label = tk.Label(
-    root,
-    text="",
-    font=("Courier New", 12),
-    fg="white",
-    bg = "black"
-)
-
-btn = tk.Button(root,
-                text=">-Submit-<",
-                font = ("Courier New",9),
-                command= quiz.next_question,
-                bg = "black",
-                fg = "white",
-                relief = "groove"
-                )
-
-start_btn = tk.Button(root,
-                      text = "Start Game",
-                      font = ("Courier New", 10),
-                      command = start,
-                      bg = "black",
-                      fg ="white",
-                      relief= "groove")
-
-
-title = tk.Label(root,
-                    text = title ,
-                    font = ("Courier New", 8),
+    entry = tk.Entry(root,
+                    font=("Courier New", ),
+                    bg = "black",
                     fg = "white",
-                    bg = "black"
                     )
 
-#Function Access from main_functions.py
-start_btn.config(command = lambda: 
-    start(root))
+    result_label = tk.Label(
+        root,
+        text="",
+        font=("Courier New", 12),
+        fg="white",
+        bg = "black"
+    )
 
-btn.config(command=lambda: 
-    quiz.next_question(entry, 
-                       result_label, 
-                       question_label, 
-                       title, 
-                       btn, 
-                       root,
-                       start_btn))
-def handle_enter(event):
-    if start_btn.winfo_manager():
-        start(root)
-    else:
-        quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn)
+    btn = tk.Button(root,
+                    text=">-Submit-<",
+                    font = ("Courier New",9),
+                    command= quiz.next_question,
+                    bg = "black",
+                    fg = "white",
+                    relief = "groove"
+                    )
 
-root.bind("<Return>", handle_enter)
-
-
-
-#Packing and Positioning
-title.pack(pady=30)
-question_label.pack(pady=20)
-entry.pack()
-result_label.pack(pady=10)
-btn.pack(pady=8)
+    start_btn = tk.Button(root,
+                        text = "Start Game",
+                        font = ("Courier New", 10),
+                        command = None,
+                        bg = "black",
+                        fg ="white",
+                        relief= "groove")
 
 
-# Start first question
-question_label.config(text=questions[0][0])
+    title = tk.Label(root,
+                        text = title ,
+                        font = ("Courier New", 8),
+                        fg = "white",
+                        bg = "black"
+                        )
 
-root.mainloop()
+    #Function Access from main_functions.py
+
+    btn.config(command=lambda: 
+        quiz.next_question(entry, 
+                        result_label, 
+                        question_label, 
+                        title, 
+                        btn, 
+                        root,
+                        start_btn))
+    def handle_enter(event):
+        if start_btn.winfo_manager():
+            pass
+        else:
+            quiz.next_question(entry, result_label, question_label, title, btn, root, start_btn)
+
+    root.bind("<Return>", handle_enter)
+
+
+
+    #Packing and Positioning
+    title.pack(pady=30)
+    question_label.pack(pady=20)
+    entry.pack()
+    result_label.pack(pady=10)
+    btn.pack(pady=8)
+
+
+    # Start first question
+    question_label.config(text=questions[0][0])
+
+    root.mainloop()
 
 
