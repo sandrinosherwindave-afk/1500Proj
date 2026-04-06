@@ -57,7 +57,7 @@ def start_animations(index, intro_story):
     if index < len(fullintro_story):
         intro_story.config(text=intro_story.cget("text") + fullintro_story[index])
         # Schedule the next character after 100ms
-    startgame_win.after(150, lambda: start_animations(index + 1, intro_story))
+    startgame_win.after(50, lambda: start_animations(index + 1, intro_story))
     
 
     

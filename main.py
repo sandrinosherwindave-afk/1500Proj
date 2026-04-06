@@ -1,5 +1,4 @@
 import tkinter as tk
-from start_functions import start
 from characters import *
 from main_functions import QuizFunctions
 
