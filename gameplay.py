@@ -17,16 +17,28 @@ after center animation: show a button next part (fight)
 
 '''
 class FirstYear:
-    def __init__(self, master = None):
+    def __init__(self, master):
         self.master = master #startgame.win
     
-    def story1(self):
+    def story1(self, index):
+        
         Year1story_1 = tk.Label(
         self.master,
-        text = "Hello",
+        text = "",
         font = ("Courier", 16),
         fg = "white",
         bg = "black"
         )
         
-        Year1story_1.pack(pady = 10)
+        def story1_animation(index):
+            fullintro_story1 = "Day 1\n You start your day when you encountered a professor"
+
+                
+            if index < len(fullintro_story1):
+                Year1story_1.config(text=Year1story_1.cget("text") + fullintro_story1[index])
+                # Schedule the next character after 100ms
+            self.master.after(30, lambda: self.master(index + 1, Year1story_1))
+            
+        story1_animation(index)
+            
+        

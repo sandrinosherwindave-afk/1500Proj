@@ -11,7 +11,6 @@ startgame_win.configure(bg="black")
 startgame_win.state('zoomed')
 menu = FirstYear(startgame_win)
 
-
 def start():
     def intro():
         return f"Welcome to {title}"

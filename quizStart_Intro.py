@@ -1,6 +1,5 @@
 import tkinter as tk
 from gameplay import *
-year1 = FirstYear()
 
 questions = [
     ("What is 5 + 3?", "8"),
@@ -60,8 +59,7 @@ def start_quiz(startgame_win):
         quiz.player_drawing.place_forget()
         quiz.model_title.pack_forget()
         start_btn.pack_forget()
-        
-        year1.story1()
+                
     
     
     start_btn = tk.Button(root,
