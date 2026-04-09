@@ -1,5 +1,6 @@
 import tkinter as tk
 from gameplay import *
+year1 = FirstYear()
 
 questions = [
     ("What is 5 + 3?", "8"),
@@ -13,6 +14,9 @@ def start_quiz(startgame_win):
     from startquiz_functions import QuizFunctions
     from drawings import title
     startgame_win.destroy()
+    
+
+        
     quiz = QuizFunctions()
     # Tkinter window
     root = tk.Tk()
@@ -50,20 +54,24 @@ def start_quiz(startgame_win):
                     bg = "black",
                     fg = "white",
                     relief = "groove"
-                    )
-
-    start_btn = tk.Button(root,
-                        text = "LET'S GO",
-                        font = ("Courier New", 10),
-                        command = removeprevious_labels(start_btn, result_label),
-                        bg = "black",
-                        fg ="white",
-                        relief= "groove")
-    def removeprevious_labels(start_btn, result_label):
+                    )  
+    def removeprevious_labels():
         result_label.pack_forget()
         quiz.player_drawing.place_forget()
         quiz.model_title.pack_forget()
-        start_btn.pack_forget
+        start_btn.pack_forget()
+        
+        year1.story1()
+    
+    
+    start_btn = tk.Button(root,
+                        text = "LET'S GO",
+                        font = ("Courier New", 10),
+                        command= removeprevious_labels,
+                        bg = "black",
+                        fg ="white",
+                        relief= "groove")
+
 
     title = tk.Label(root,
                         text = title ,
@@ -117,23 +125,12 @@ def start_quiz(startgame_win):
         root.after(30, lambda: introquiz_animations(index1 + 1, introquiz))
         
 
-
-
-
     #Packing and Positioning
     title.pack(pady=10)
     introquiz_animations(0, introquiz)
     introquiz.pack(pady=5)
     def quiz_packs(): question_label.pack(pady=20), entry.pack(), result_label.pack(pady=10), btn.pack(pady=8)
     root.after(4120, quiz_packs)
-    
-
-        
-    
-    
-    
-
-
 
 
     # Start first question

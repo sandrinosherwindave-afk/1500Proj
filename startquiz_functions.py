@@ -3,12 +3,13 @@ from drawings import *
 import tkinter as tk
 from quizStart_Intro import *
 
+
 class QuizFunctions:
     def __init__(self):
         self.score = 0
         self.q_index = 0
-        self.model_title = ""     
-        self.player_drawing = ""   
+        self.model_title = None    
+        self.player_drawing = None   
     
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn, introquiz):
         user = entry.get().lower()

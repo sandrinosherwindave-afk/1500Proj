@@ -1,6 +1,7 @@
 import tkinter as tk
 from drawings import *
 from quizStart_Intro import *
+from gameplay import FirstYear
 
 startgame_win = tk.Tk()
 startgame_win.title("CCS CRAWLER")
@@ -8,6 +9,8 @@ startgame_win.iconbitmap("necromancer.ico")
 startgame_win.geometry("400x300")
 startgame_win.configure(bg="black")
 startgame_win.state('zoomed')
+menu = FirstYear(startgame_win)
+
 
 def start():
     def intro():
@@ -20,14 +23,7 @@ def start():
                     font=("Courier New", 18), 
                     fg= "#FFFFFF", 
                     bg="black")
-    
-    intro_story = tk.Label(
-        startgame_win,
-        text = "",
-        font = ("Courier", 16),
-        fg = "white",
-        bg = "black"
-    )
+
     
     button_start = tk.Button(
         startgame_win,
@@ -49,6 +45,14 @@ def start():
         fg = "white",
         relief = "groove"
         
+    )
+        
+    intro_story = tk.Label(
+        startgame_win,
+        text = "",
+        font = ("Courier", 16),
+        fg = "white",
+        bg = "black"
     )
     
     startgame_win.bind("<Return>", lambda event: button_start.invoke())    
