@@ -1,4 +1,4 @@
-from characters import *
+from gameplay import *
 from drawings import *
 import tkinter as tk
 

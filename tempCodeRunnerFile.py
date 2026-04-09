@@ -1,1 +1,2 @@
-from drawings import dragon
+root.state('zoomed')
+root.configure(background="black")

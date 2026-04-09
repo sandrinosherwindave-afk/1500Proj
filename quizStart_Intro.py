@@ -1,6 +1,6 @@
 import tkinter as tk
-from characters import *
-from main_functions import QuizFunctions
+from gameplay import *
+from startquiz_functions import QuizFunctions
 
 
 def start_quiz(startgame_win):

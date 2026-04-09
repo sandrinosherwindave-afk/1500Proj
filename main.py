@@ -1,6 +1,6 @@
 import tkinter as tk
 from drawings import *
-from quizStart import *
+from quizStart_Intro import *
 
 startgame_win = tk.Tk()
 startgame_win.title("CCS CRAWLER")
