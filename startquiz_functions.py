@@ -1,7 +1,7 @@
 from gameplay import *
 from drawings import *
 import tkinter as tk
-
+from quizStart_Intro import questions   
 
 class QuizFunctions:
     def __init__(self):
