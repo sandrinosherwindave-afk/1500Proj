@@ -2,7 +2,11 @@ import tkinter as tk
 from gameplay import *
 from startquiz_functions import QuizFunctions
 
-
+questions = [
+    ("What is 5 + 3?", "8"),
+    ("What is the capital of France?", "paris"),
+    ("What is 10 * 2?", "20")
+]
 def start_quiz(startgame_win):
     from drawings import title
     startgame_win.destroy()
