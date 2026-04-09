@@ -1,14 +1,14 @@
 from gameplay import *
 from drawings import *
 import tkinter as tk
-from quizStart_Intro import questions   
+from quizStart_Intro import *
 
 class QuizFunctions:
     def __init__(self):
         self.score = 0
         self.q_index = 0
-        self.model_title = None     
-        self.player_drawing = None   
+        self.model_title = ""     
+        self.player_drawing = ""   
     
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn, introquiz):
         user = entry.get().lower()
@@ -35,7 +35,7 @@ class QuizFunctions:
         btn.pack_forget()
               
         #MARY RESULT
-        if self.score == 3:
+        if self.score == 0:
             self.current_model = mary_model
             self.model_title = tk.Label(root, 
                                         text="RANK: ACHIEVER", 
@@ -75,7 +75,7 @@ class QuizFunctions:
             start_btn.pack(side = "top",pady = 4)
             
         #NICK RESULT  
-        elif self.score == 0:
+        elif self.score == 3:
             self.current_model = nick_model
             self.model_title = tk.Label(root, 
                                         text="RANK: STREET SMART", 

@@ -1,13 +1,16 @@
 import tkinter as tk
 from gameplay import *
-from startquiz_functions import QuizFunctions
 
 questions = [
     ("What is 5 + 3?", "8"),
     ("What is the capital of France?", "paris"),
     ("What is 10 * 2?", "20")
 ]
+
+
+
 def start_quiz(startgame_win):
+    from startquiz_functions import QuizFunctions
     from drawings import title
     startgame_win.destroy()
     quiz = QuizFunctions()
@@ -17,8 +20,7 @@ def start_quiz(startgame_win):
     root.iconbitmap("necromancer.ico")
     root.state('zoomed')
     root.configure(background="black")
-
-
+    
 
     question_label = tk.Label(root,
                             text="",
@@ -51,13 +53,17 @@ def start_quiz(startgame_win):
                     )
 
     start_btn = tk.Button(root,
-                        text = "START",
+                        text = "LET'S GO",
                         font = ("Courier New", 10),
-                        command = None,
+                        command = removeprevious_labels(start_btn, result_label),
                         bg = "black",
                         fg ="white",
                         relief= "groove")
-
+    def removeprevious_labels(start_btn, result_label):
+        result_label.pack_forget()
+        quiz.player_drawing.place_forget()
+        quiz.model_title.pack_forget()
+        start_btn.pack_forget
 
     title = tk.Label(root,
                         text = title ,
@@ -109,6 +115,8 @@ def start_quiz(startgame_win):
             introquiz.config(text=introquiz.cget("text") + fullintroquiz[index1])
             # Schedule the next character after 100ms
         root.after(30, lambda: introquiz_animations(index1 + 1, introquiz))
+        
+
 
 
 
@@ -118,6 +126,12 @@ def start_quiz(startgame_win):
     introquiz.pack(pady=5)
     def quiz_packs(): question_label.pack(pady=20), entry.pack(), result_label.pack(pady=10), btn.pack(pady=8)
     root.after(4120, quiz_packs)
+    
+
+        
+    
+    
+    
 
 
 
