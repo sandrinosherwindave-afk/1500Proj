@@ -1,15 +1,18 @@
-from gameplay import *
 from drawings import *
 import tkinter as tk
-from quizStart_Intro import *
 
-  
+questions = [
+    ("What is 5 + 3?", "8"),
+    ("What is the capital of France?", "paris"),
+    ("What is 10 * 2?", "20")
+]
 class QuizFunctions:
     def __init__(self):
         self.score = 0
         self.q_index = 0
         self.model_title = None    
-        self.player_drawing = None   
+        self.player_drawing = None
+        self.result = None   
     
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn, introquiz):
         user = entry.get().lower()
@@ -50,10 +53,12 @@ class QuizFunctions:
                                    bg = "black"
                                    )
             
+            self.result = self.player_drawing
             self.model_title.pack(pady = 3)
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Mary", fg="white")
             self.player_drawing.place(x= 590, y = 192)
             start_btn.pack(side = "top",pady = 4)
+            
         
         #JOHN RESULT
         elif self.score == 2:
@@ -84,7 +89,7 @@ class QuizFunctions:
                                         fg="gold", 
                                         bg="black"
                                         )
-            nick_player = tk.Label(root,
+            self.player_drawing = tk.Label(root,
                                    text = self.current_model,
                                    font = ("Courier New", 14),
                                    fg = "white",
@@ -94,8 +99,9 @@ class QuizFunctions:
             
             self.model_title.pack(pady = 3)
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Nick!", fg="white")
-            nick_player.place(x= 660, y = 192)
+            self.player_drawing.place(x= 660, y = 192)
             start_btn.pack(side = "top",pady = 4)
+            self.result = self.player_drawing
             
             
         
