@@ -9,7 +9,6 @@ startgame_win.iconbitmap("necromancer.ico")
 startgame_win.geometry("400x300")
 startgame_win.configure(bg="black")
 startgame_win.state('zoomed')
-menu = FirstYear(startgame_win)
 
 def start():
     def intro():

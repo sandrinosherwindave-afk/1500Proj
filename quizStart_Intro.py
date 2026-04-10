@@ -15,15 +15,15 @@ def start_quiz(startgame_win):
     startgame_win.destroy()
     
 
-        
+    
     quiz = QuizFunctions()
     # Tkinter window
     root = tk.Tk()
     root.title("CCS Crawler")
     root.iconbitmap("necromancer.ico")
     root.state('zoomed')
-    root.configure(background="black")
-    
+    root.configure(background="black")    
+    menu1 = FirstYear(root)
 
     question_label = tk.Label(root,
                             text="",
@@ -60,8 +60,7 @@ def start_quiz(startgame_win):
         quiz.model_title.pack_forget()
         start_btn.pack_forget()
         
-        menu.story1(0)
-                
+        menu1.story1(0)
     
     
     start_btn = tk.Button(root,

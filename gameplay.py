@@ -30,7 +30,7 @@ class FirstYear:
         bg = "black"
         )
         
-        def story1_animation(index):
+        def story1_animation(index, Year1story_1):
             fullintro_story1 = "Day 1\n You start your day when you encountered a professor"
 
                 
@@ -38,7 +38,9 @@ class FirstYear:
                 Year1story_1.config(text=Year1story_1.cget("text") + fullintro_story1[index])
                 # Schedule the next character after 100ms
             self.master.after(30, lambda: self.master(index + 1, Year1story_1))
-            
-        story1_animation(index)
+        
+        self.Year1story_1.pack(pady = 10)    
+        story1_animation(index, Year1story_1)
+        
             
         
