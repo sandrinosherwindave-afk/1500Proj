@@ -59,6 +59,8 @@ def start_quiz(startgame_win):
         quiz.player_drawing.place_forget()
         quiz.model_title.pack_forget()
         start_btn.pack_forget()
+        
+        menu.story1(0)
                 
     
     
