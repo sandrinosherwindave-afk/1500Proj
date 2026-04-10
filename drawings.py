@@ -7,7 +7,6 @@ title = r'''
 '''
 
 
-
 mary_model = r'''
               ., _
              /    `

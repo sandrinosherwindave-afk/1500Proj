@@ -5,7 +5,6 @@ from gameplay import FirstYear
 
 startgame_win = tk.Tk()
 startgame_win.title("CCS CRAWLER")
-startgame_win.iconbitmap("necromancer.ico")
 startgame_win.geometry("400x300")
 startgame_win.configure(bg="black")
 startgame_win.state('zoomed')
@@ -27,7 +26,7 @@ def start():
         startgame_win,
         text = "Start Game",
         width=10, 
-        height=1,
+        height=1, 
         font = ("Courier New", 15),
         command = start_quiz,
         bg = "black",

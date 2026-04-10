@@ -7,20 +7,17 @@ questions = [
     ("What is 10 * 2?", "20")
 ]
 
-
+  
 
 def start_quiz(startgame_win):
     from startquiz_functions import QuizFunctions
     from drawings import title
     startgame_win.destroy()
-    
 
-    
     quiz = QuizFunctions()
     # Tkinter window
     root = tk.Tk()
     root.title("CCS Crawler")
-    root.iconbitmap("necromancer.ico")
     root.state('zoomed')
     root.configure(background="black")    
     menu1 = FirstYear(root)

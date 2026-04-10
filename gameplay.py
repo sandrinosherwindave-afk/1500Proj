@@ -6,7 +6,7 @@ questions = [
     ("What is 10 * 2?", "20")
 ]
 
-
+  
 '''
 After a _forget ang mga label:
 top: 1st year
@@ -37,9 +37,9 @@ class FirstYear:
             if index < len(fullintro_story1):
                 Year1story_1.config(text=Year1story_1.cget("text") + fullintro_story1[index])
                 # Schedule the next character after 100ms
-            self.master.after(30, lambda: self.master(index + 1, Year1story_1))
+            self.master.after(30, lambda: story1_animation(index + 1, Year1story_1))
         
-        self.Year1story_1.pack(pady = 10)    
+        Year1story_1.pack(pady = 10)    
         story1_animation(index, Year1story_1)
         
             
