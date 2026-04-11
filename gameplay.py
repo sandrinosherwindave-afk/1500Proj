@@ -15,7 +15,7 @@ after center animation: show a button next part (fight)
 
 '''
 
-quizIntro_result = QuizFunctions()
+quizIntro_result = QuizFunctions(root)
 class FirstYear:
     def __init__(self, master):
         self.master = master #startgame.win
