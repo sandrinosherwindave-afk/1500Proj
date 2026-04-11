@@ -1,11 +1,6 @@
 import tkinter as tk
-from gameplay import *
-
-questions = [
-    ("What is 5 + 3?", "8"),
-    ("What is the capital of France?", "paris"),
-    ("What is 10 * 2?", "20")
-]
+from gameplay import FirstYear
+from startquiz_functions import questions
 
   
 

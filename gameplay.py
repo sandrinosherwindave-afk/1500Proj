@@ -1,10 +1,8 @@
 import tkinter as tk
+from quizStart_Intro import *
+from startquiz_functions import QuizFunctions
 
-questions = [
-    ("What is 5 + 3?", "8"),
-    ("What is the capital of France?", "paris"),
-    ("What is 10 * 2?", "20")
-]
+
 
   
 '''
@@ -16,9 +14,11 @@ after center animation: show a button next part (fight)
 
 
 '''
+quizIntro_result = QuizFunctions()
 class FirstYear:
     def __init__(self, master):
         self.master = master #startgame.win
+        
     
     def story1(self, index):
         
@@ -41,6 +41,8 @@ class FirstYear:
         
         Year1story_1.pack(pady = 10)    
         story1_animation(index, Year1story_1)
+        quizIntro_result.result.pack(pady = 10)
+
         
             
         
