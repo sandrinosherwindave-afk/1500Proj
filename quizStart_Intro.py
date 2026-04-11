@@ -18,6 +18,7 @@ def start_quiz(startgame_win):
     root.configure(background="black")    
     menu1 = FirstYear(root)
     quiz = QuizFunctions(root)
+    root.protocol("WM_DELETE_WINDOW", lambda: (root.quit(), root.destroy()))
 
     question_label = tk.Label(root,
                             text="",
@@ -54,7 +55,7 @@ def start_quiz(startgame_win):
         quiz.model_title.pack_forget()
         start_btn.pack_forget()
         
-        menu1.story1(0)
+        menu1.story1(0, quiz)
     
     
     start_btn = tk.Button(root,
@@ -115,7 +116,7 @@ def start_quiz(startgame_win):
         if index1 < len(fullintroquiz):
             introquiz.config(text=introquiz.cget("text") + fullintroquiz[index1])
             # Schedule the next character after 100ms
-        root.after(30, lambda: introquiz_animations(index1 + 1, introquiz))
+        root.after(10, lambda: introquiz_animations(index1 + 1, introquiz))
         
 
     #Packing and Positioning
@@ -123,7 +124,7 @@ def start_quiz(startgame_win):
     introquiz_animations(0, introquiz)
     introquiz.pack(pady=5)
     def quiz_packs(): question_label.pack(pady=20), entry.pack(), result_label.pack(pady=10), btn.pack(pady=8)
-    root.after(4120, quiz_packs)
+    root.after(10, quiz_packs)
 
 
     # Start first question

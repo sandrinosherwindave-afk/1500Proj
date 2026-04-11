@@ -39,7 +39,7 @@ class QuizFunctions:
         btn.pack_forget()
               
         #MARY RESULT
-        if self.score == 0:
+        if self.score == 3:
             self.current_model = mary_model
             self.model_title = tk.Label(root, 
                                         text="RANK: ACHIEVER", 
@@ -81,7 +81,7 @@ class QuizFunctions:
             start_btn.pack(side = "top",pady = 4)
             
         #NICK RESULT  
-        elif self.score == 3:
+        elif self.score == 0:
             self.current_model = nick_model
             self.model_title = tk.Label(root, 
                                         text="RANK: STREET SMART", 

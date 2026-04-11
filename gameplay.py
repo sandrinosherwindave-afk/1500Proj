@@ -15,13 +15,12 @@ after center animation: show a button next part (fight)
 
 '''
 
-quizIntro_result = QuizFunctions(root)
 class FirstYear:
     def __init__(self, master):
-        self.master = master #startgame.win
+        self.master = master #root
         
     
-    def story1(self, index):
+    def story1(self, index, quiz_result_obj):
         
         Year1story_1 = tk.Label(
         self.master,
@@ -33,19 +32,22 @@ class FirstYear:
         
         def story1_animation(index, Year1story_1):
             fullintro_story1 = "Day 1\n You start your day when you encountered a professor"
+            
+            if not Year1story_1.winfo_exists():
+                return
 
-                
             if index < len(fullintro_story1):
                 Year1story_1.config(text=Year1story_1.cget("text") + fullintro_story1[index])
                 # Schedule the next character after 100ms
-            self.master.after(30, lambda: story1_animation(index + 1, Year1story_1))
+                self.master.after(10, lambda: story1_animation(index + 1, Year1story_1))
+                
+            # else:
+            #     if quiz_result_obj and quiz_result_obj.result:
+            #         self.master.after(5, quiz_result_obj.result.place(relx=0.5, rely=0.5, anchor="center"))
         
-        Year1story_1.pack(pady = 10)    
+        Year1story_1.pack(pady = 10)            
         story1_animation(index, Year1story_1)
-        if quizIntro_result.result is not None:
-            quizIntro_result.result.pack(pady=10)
-        else:
-            print("Debug: quizIntro_result.result is still None!")
+
 
         
             
