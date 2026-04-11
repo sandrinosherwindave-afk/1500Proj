@@ -6,6 +6,7 @@ from gameplay import FirstYear
 startgame_win = tk.Tk()
 startgame_win.title("CCS CRAWLER")
 startgame_win.geometry("400x300")
+startgame_win.iconbitmap("necromancer.ico")
 startgame_win.configure(bg="black")
 startgame_win.state('zoomed')
 
