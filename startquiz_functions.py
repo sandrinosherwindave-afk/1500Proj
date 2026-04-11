@@ -7,12 +7,12 @@ questions = [
     ("What is 10 * 2?", "20")
 ]
 class QuizFunctions:
-    def __init__(self):
+    def __init__(self,root):
         self.score = 0
         self.q_index = 0
-        self.model_title = None    
-        self.player_drawing = None
-        self.result = None   
+        self.model_title = tk.Label(root)
+        self.player_drawing = tk.Label(root)
+        self.result = self.player_drawing 
     
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn, introquiz):
         user = entry.get().lower()

@@ -1,6 +1,6 @@
 import tkinter as tk
 from quizStart_Intro import *
-from startquiz_functions import QuizFunctions
+from startquiz_functions import *
 
 
 
@@ -14,6 +14,7 @@ after center animation: show a button next part (fight)
 
 
 '''
+
 quizIntro_result = QuizFunctions()
 class FirstYear:
     def __init__(self, master):
@@ -41,7 +42,10 @@ class FirstYear:
         
         Year1story_1.pack(pady = 10)    
         story1_animation(index, Year1story_1)
-        quizIntro_result.result.pack(pady = 10)
+        if quizIntro_result.result is not None:
+            quizIntro_result.result.pack(pady=10)
+        else:
+            print("Debug: quizIntro_result.result is still None!")
 
         
             
