@@ -53,12 +53,12 @@ class QuizFunctions:
                                    bg = "black"
                                    )
             
-            self.result = self.player_drawing
+            
             self.model_title.pack(pady = 3)
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Mary", fg="white")
             self.player_drawing.place(x= 590, y = 192)
             start_btn.pack(side = "top",pady = 4)
-            
+            self.player_drawing=self.result
         
         #JOHN RESULT
         elif self.score == 2:
@@ -97,12 +97,13 @@ class QuizFunctions:
                                    justify= tk.LEFT,
                                    )
             
+              
             self.model_title.pack(pady = 3)
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Nick!", fg="white")
             self.player_drawing.place(x= 660, y = 192)
             start_btn.pack(side = "top",pady = 4)
-            self.result = self.player_drawing
-            
+            self.player_drawing=self.result
+                      
             
         
         

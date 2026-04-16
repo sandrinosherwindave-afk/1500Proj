@@ -185,8 +185,9 @@ class Gameplay:
                   font=("Courier New", 10, "bold"), 
                   relief="flat").pack(side="left", padx=10)
         
-        if self.characterSprite and self.characterSprite.result:
-            self.characterSprite.result.pack(pady = 20)
+        self.characterSprite.result.pack(pady = 10)
+        
+
         
         
     def dorm_room(self):
