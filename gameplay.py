@@ -14,6 +14,7 @@ after center animation: show a button next part (fight)
 
 
 '''
+
 damage_range = {
     "High": (15, 20),
     "Medium": (10, 12),
@@ -82,6 +83,7 @@ PLAYER_MAX_HP = 140
 ENEMY_MAX_HP = 120
 unlocked_level = 1
 current_player_hp = PLAYER_MAX_HP
+unlocked_semester = 1 
 
 # Bypassing the quiz: Set Mary as the default player character
 player = mary
@@ -96,6 +98,7 @@ QUESTIONS_BATTLE = {
 class Gameplay:
     def __init__(self, master):
         self.master = master #root
+        self.characterSprite = QuizFunctions(self.master)
         
     def story1(self, index, quiz_result_obj):
         
@@ -131,7 +134,7 @@ class Gameplay:
         
     def clear_screen(self):
         for widget in self.master.winfo_children():
-            widget.destroy()
+            widget.forget()
         
     def start_gameplayButton(self):       
         continueTocampus = tk.Button(self.master, 
@@ -182,6 +185,10 @@ class Gameplay:
                   font=("Courier New", 10, "bold"), 
                   relief="flat").pack(side="left", padx=10)
         
+        if self.characterSprite and self.characterSprite.result:
+            self.characterSprite.result.pack(pady = 20)
+        
+        
     def dorm_room(self):
         global current_player_hp
         current_player_hp = PLAYER_MAX_HP
@@ -205,30 +212,49 @@ class Gameplay:
         
     def school_menu(self):
         self.clear_screen()
-        tk.Label(self.master, 
-                 text="ACADEMIC SEMESTERS", 
-                 font=("Courier New", 20, "bold"), 
-                 bg="#000000", 
-                 fg="#ffffff").pack(pady=20)
-        for i in range(1, 3):
-            state_btn = "normal" if i <= unlocked_level else "disabled"
-            btn_color = "#ffffff" if i <= unlocked_level else "#333333"
-            text_color = "#000000" if i <= unlocked_level else "#888888"
-            tk.Button(self.master, 
-                      text=f"SEMESTER {i}", 
-                      width=25, 
-                      state=state_btn, 
-                      bg=btn_color, 
-                      fg=text_color, 
-                      font=("Courier New", 10, "bold"), 
-                      relief="flat").pack(pady=5)
-        tk.Button(self.master, 
-                  text="BACK", 
-                  command=self.main_menu, 
-                  font=("Courier New", 10), 
-                  bg="#000000", 
-                  fg="#ffffff", 
-                  relief="flat").pack(pady=20)
+        tk.Label(self.master,
+                    text="ACADEMIC CAREER (4 YEARS)",
+                    font=("Courier New", 20, "bold"),
+                    bg="#000000",
+                    fg="#ffffff").pack(
+            pady=10)
+
+        container = tk.Frame(self.master, bg="black")
+        container.pack(pady=10)
+
+        # Generate 4 Years, 2 Semesters each
+        for year in range(1, 5):
+            year_frame = tk.LabelFrame(container, text=f"YEAR {year}", bg="black", fg="white",
+                                        font=("Courier New", 10, "bold"), padx=10, pady=5)
+            year_frame.grid(row=(year - 1) // 2, column=(year - 1) % 2, padx=10, pady=10)
+
+            for sem in range(1, 3):
+                sem_num = ((year - 1) * 2) + sem
+                is_unlocked = sem_num <= unlocked_semester
+
+                btn_text = f"Semester {sem}"
+                btn_bg = "#ffffff" if is_unlocked else "#222222"
+                btn_fg = "#000000" if is_unlocked else "#666666"
+
+                tk.Button(year_frame,
+                            text=btn_text,
+                            width=15,
+                            state="normal" if is_unlocked else "disabled",
+                            bg=btn_bg,
+                            fg=btn_fg,
+                            command=lambda s=sem_num: start_battle(s),
+                            font=("Courier New", 9, "bold")).pack(pady=2)
+
+        tk.Button(self.master,
+                    text="BACK",
+                    command=self.main_menu,
+                    font=("Courier New", 10),
+                    bg="#333333",
+                    fg="white", 
+                    width=10).pack(
+        pady=20)
+                    
+
 
 
 
