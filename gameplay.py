@@ -185,8 +185,10 @@ class Gameplay:
                   font=("Courier New", 10, "bold"), 
                   relief="flat").pack(side="left", padx=10)
         
+        #ISSUE
+        #########
         self.characterSprite.result.pack(pady = 10)
-        
+        #########
 
         
         
