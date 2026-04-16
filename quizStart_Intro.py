@@ -1,5 +1,5 @@
 import tkinter as tk
-from gameplay import FirstYear
+from gameplay import Gameplay
 from startquiz_functions import questions
 
   
@@ -16,7 +16,7 @@ def start_quiz(startgame_win):
     root.state('zoomed')
     root.iconbitmap("necromancer.ico")
     root.configure(background="black")    
-    menu1 = FirstYear(root)
+    menu1 = Gameplay(root)
     quiz = QuizFunctions(root)
     root.protocol("WM_DELETE_WINDOW", lambda: (root.quit(), root.destroy()))
 
