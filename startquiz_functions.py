@@ -58,7 +58,7 @@ class QuizFunctions:
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Mary", fg="white")
             self.player_drawing.place(x= 590, y = 192)
             start_btn.pack(side = "top",pady = 4)
-            self.player_drawing=self.result
+            self.result = self.player_drawing
         
         #JOHN RESULT
         elif self.score == 2:
@@ -79,6 +79,8 @@ class QuizFunctions:
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Mary", fg="white")
             self.player_drawing.place(x= 590, y = 192)
             start_btn.pack(side = "top",pady = 4)
+            self.result = self.player_drawing
+
             
         #NICK RESULT  
         elif self.score == 0:
@@ -102,7 +104,7 @@ class QuizFunctions:
             result_label.config(text=f"Final Score: {self.score}/3\n You Got Nick!", fg="white")
             self.player_drawing.place(x= 660, y = 192)
             start_btn.pack(side = "top",pady = 4)
-            self.player_drawing=self.result
+            self.result = self.player_drawing
                       
             
         

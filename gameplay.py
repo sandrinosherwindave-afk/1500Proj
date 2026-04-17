@@ -31,7 +31,7 @@ class Character:
         self.level = level
         self.hp = hp
         self.attack = attack
-        self.MAX_LEVEL = 10
+        self.MAX_LEVEL = 20
 
     def get_damage(self, level_rank):
         low, high = damage_range[level_rank]
@@ -40,8 +40,8 @@ class Character:
     def calculate_growth(self, won_battle):
         if self.level >= self.MAX_LEVEL:
             return None
-        BASE_HP_GAIN = 20
-        BASE_ATK_GAIN = 10
+        BASE_HP_GAIN = 25
+        BASE_ATK_GAIN = 12
         level_efficiency = max(0.2, 1.0 - ((self.level - 1) * 0.1))
         multiplier = 1.0 if won_battle else 0.5
         status_text = "VICTORY" if won_battle else "DEFEATED"
@@ -62,15 +62,6 @@ class Character:
         self.level += 1
         return data
 
-    def get_dialogue(self, won_battle):
-        if self.level >= self.MAX_LEVEL:
-            return f"{self.name}: I have reached the peak of my potential."
-        if won_battle:
-            if self.name == "Mary": return "Mary: I feel the surge of victory! My power grows."
-            if self.name == "John": return "John: Another foe fallen. I am getting stronger."
-            if self.name == "Nick": return "Nick: Easy work. On to the next one!"
-        return f"{self.name}: That... didn't go as planned. I need to train harder."
-
 # Initial Character Templates
 mary = Character("Mary", "Achiever", "High", 5, {}, level=1, hp=100, attack=25)
 john = Character("John", "Athletic", "Low", 6, {}, level=1, hp=150, attack=15)
@@ -79,11 +70,13 @@ nick = Character("Nick", "Street Smart", "Medium", 10, {}, level=1, hp=120, atta
 # ---------------------------------------------------------
 # GLOBAL STATE & CONSTANTS
 # ---------------------------------------------------------
-PLAYER_MAX_HP = 140
+PLAYER_MAX_HP = 100
 ENEMY_MAX_HP = 120
 unlocked_level = 1
 current_player_hp = PLAYER_MAX_HP
-unlocked_semester = 1 
+unlocked_semester = 1
+semesters_won_properly = []  # NEW TRACKER FOR ENDINGS
+
 
 # Bypassing the quiz: Set Mary as the default player character
 player = mary
@@ -134,7 +127,8 @@ class Gameplay:
         
     def clear_screen(self):
         for widget in self.master.winfo_children():
-            widget.forget()
+                widget.destroy()
+ 
         
     def start_gameplayButton(self):       
         continueTocampus = tk.Button(self.master, 
@@ -146,55 +140,102 @@ class Gameplay:
         
         continueTocampus.pack(pady = 10)
         
+    def show_ending(self):
+        self.clear_screen()
+        # Count how many times they actually won vs relied on Mercy
+        actual_wins = semesters_won_properly.count(True)
+
+        if actual_wins == 0:
+            # BAD ENDING
+            title = "THE 'BARE MINIMUM' ENDING"
+            color = "#ff4444"
+            msg = (
+                f"Congratulations {player.name}...\n\n"
+                "You technically graduated, but you relied on the mercy rule\n"
+                "for every single semester. You have the degree,\n"
+                "but you didn't actually learn a single thing.\n\n"
+                "EMPLOYABILITY: 0%\n"
+                "Regret: 100%"
+            )
+        else:
+            # GOOD ENDING
+            title = "THE ACADEMIC ELITE"
+            color = "#00ff00"
+            msg = (
+                f"Incredible job, {player.name}!\n\n"
+                f"You conquered the university with {actual_wins} true victories.\n"
+                "You are graduating at the top of your class with honors!\n"
+                "The future looks bright."
+            )
+
+        tk.Label(self.master,
+                text=title,
+                font=("Courier New", 24, "bold"),
+                bg="black",
+                fg=color).pack(pady=40)
+        tk.Label(self.master,
+                text=msg,
+                font=("Courier New", 13),
+                bg="black",
+                fg="white",
+                justify="center").pack(pady=20)
+        tk.Button(self.master,
+                text="QUIT GAME",
+                command=self.master.quit,
+                bg="#333333",
+                fg="white",
+                font=("Courier New", 12)).pack(
+            pady=30)
+    
+    #MAIN MENU & COMMANDS
     def main_menu(self):
         self.clear_screen()
-        tk.Label(self.master, 
-                 text="UNIVERSITY HUB", 
-                 font=("Courier New", 26, "bold"), 
-                 bg="#000000", 
-                 fg="#ffffff").pack(pady=40)
-        tk.Label(self.master, 
-                 text=f"STUDENT: {player.name} | LEVEL: {player.level}", 
-                 font=("Courier New", 12), 
-                 bg="#000000", 
-                 fg="#ffffff").pack()
-        tk.Label(self.master, 
-                 text=f"STUDENT HP: {current_player_hp}/{PLAYER_MAX_HP}", 
-                 font=("Courier New", 14, "bold"), 
-                 bg="#000000", 
-                 fg="#ffffff").pack()
+        tk.Label(self.master,
+                text="UNIVERSITY HUB",
+                font=("Courier New", 26, "bold"),
+                bg="#000000",
+                fg="#ffffff").pack(pady=40)
+        tk.Label(self.master,
+                text=f"STUDENT: {player.name} | LEVEL: {player.level}",
+                font=("Courier New", 12),
+                bg="#000000",
+                fg="#ffffff").pack()
+
+        hp_color = "#ffffff" if current_player_hp > 30 else "#ff0000"
+        tk.Label(self.master,
+                text=f"STUDENT HP: {current_player_hp}/{player.hp}",
+                font=("Courier New", 14, "bold"),
+                bg="#000000",
+                fg=hp_color).pack(pady=10)
 
         btn_frame = tk.Frame(self.master, bg="#000000")
         btn_frame.pack(pady=30)
-        tk.Button(btn_frame, 
-                  text="👨‍🏫 GO TO CLASS", 
-                  width=18, 
-                  height=2, 
-                  command=self.school_menu, 
-                  bg="#ffffff", 
-                  fg="#000000", 
-                  font=("Courier New", 10, "bold"), 
-                  relief="flat").pack(side="left", padx=10)
-        tk.Button(btn_frame, 
-                  text="🛌 REST IN DORM", 
-                  width=18, 
-                  height=2, 
-                  command=self.dorm_room, 
-                  bg="#ffffff", 
-                  fg="#000000", 
-                  font=("Courier New", 10, "bold"), 
-                  relief="flat").pack(side="left", padx=10)
-        
+        tk.Button(btn_frame,
+                text="👨‍🏫 GO TO CLASS",
+                width=18,
+                height=2,
+                command=self.school_menu,
+                bg="#ffffff",
+                fg="#000000",
+                font=("Courier New", 10, "bold")).pack(side="left", padx=10)
+        tk.Button(btn_frame,
+                text="🛌 REST IN DORM",
+                width=18, height=2,
+                command=self.dorm_room,
+                bg="#ffffff",
+                fg="#000000",
+                font=("Courier New", 10, "bold")).pack(side="left", padx=10)
+            
         #ISSUE
         #########
-        self.characterSprite.result.pack(pady = 10)
+        # self.characterSprite.result.pack(pady = 10)
         #########
 
         
         
     def dorm_room(self):
         global current_player_hp
-        current_player_hp = PLAYER_MAX_HP
+        current_player_hp = player.hp
         self.clear_screen()
         tk.Label(self.master, 
                  text="DORM ROOM", 
@@ -245,7 +286,7 @@ class Gameplay:
                             state="normal" if is_unlocked else "disabled",
                             bg=btn_bg,
                             fg=btn_fg,
-                            command=lambda s=sem_num: start_battle(s),
+                            command=lambda s=sem_num: self.start_battle(s),
                             font=("Courier New", 9, "bold")).pack(pady=2)
 
         tk.Button(self.master,
@@ -256,6 +297,180 @@ class Gameplay:
                     fg="white", 
                     width=10).pack(
         pady=20)
+                    
+                    
+    #BATTLE SYSTEM 
+    def start_battle(self, sem_id):
+        global current_player_hp
+        self.clear_screen()
+
+        b_state = {
+            "player_hp": current_player_hp,
+            "enemy_hp": ENEMY_MAX_HP + (sem_id * 10),
+            "current_answer": "",
+            "monster_count": 1
+        }
+
+        canvas = tk.Canvas(self.master,
+                            width=600,
+                            height=250,
+                            bg="#000000",
+                            highlightthickness=1,
+                            highlightbackground="#ffffff")
+        canvas.pack(pady=10)
+
+        # Health Bar UI
+        enemy_sprite = canvas.create_rectangle(420, 60, 480, 110, fill="#333333", outline="#ffffff", width=2)
+        player_sprite = canvas.create_polygon(120, 210, 140, 160, 160, 140, 180, 160, 200, 210, fill="#ffffff")
+        canvas.create_rectangle(38, 38, 222, 57, outline="#ffffff", width=1)
+        canvas.create_rectangle(348, 178, 532, 197, outline="#ffffff", width=1)
+        enemy_bar = canvas.create_rectangle(40, 40, 220, 55, fill="#ffffff", outline="")
+        player_bar = canvas.create_rectangle(350, 180, 530, 195, fill="#ffffff", outline="")
+
+        def shake(target, count=6, offset=5):
+            if count > 0:
+                direction = offset if count % 2 == 0 else -offset
+                canvas.move(target, direction, 0)
+                self.master.after(40, lambda: shake(target, count - 1, offset))
+
+        diag_frame = tk.Frame(self.master, bg="#000000")
+        diag_frame.pack(fill="both", padx=10, pady=10)
+        qlbl = tk.Label(diag_frame,
+                        text="",
+                        fg="#ffffff",
+                        bg="#000000",
+                        font=("Courier New", 11, "bold"), wraplength=400)
+        qlbl.pack(pady=10)
+
+        battle_entry = tk.Entry(self.master,
+                                font=("Courier New", 14),
+                                bg="#111111",
+                                fg="#ffffff",
+                                insertbackground="white",
+                                justify="center")
+        battle_entry.pack(pady=5)
+        battle_entry.focus_set()
+
+        
+        def update_bars():
+            e_max = ENEMY_MAX_HP + (sem_id * 10)
+            e_perc = max(0, b_state["enemy_hp"] / e_max)
+            canvas.coords(enemy_bar, 40, 40, 40 + (e_perc * 180), 55)
+            p_perc = max(0, b_state["player_hp"] / player.hp)
+            canvas.coords(player_bar, 350, 180, 350 + (p_perc * 180), 195)
+
+        def set_question():
+            diff = "easy" if b_state["monster_count"] == 1 else "medium" if b_state["monster_count"] == 2 else "hard"
+            q_data = random.choice(QUESTIONS_BATTLE[diff])
+            b_state["current_answer"] = q_data["a"].lower()
+            qlbl.config(text=f"SEMESTER {sem_id} | EXAM {b_state['monster_count']}/3\n\nQUESTION: {q_data['q']}")
+            battle_entry.delete(0, tk.END)
+
+        def check_ans(event=None):
+            global current_player_hp
+            user = battle_entry.get().strip().lower()
+            if not user or user != b_state["current_answer"]:
+                damage_taken = 15 + (sem_id * 2)
+                b_state["player_hp"] = max(0, b_state["player_hp"] - damage_taken)
+                current_player_hp = b_state["player_hp"]
+                qlbl.config(text="WRONG! The monster attacks!")
+            else:
+                dmg = player.get_damage(player.intelligence)
+                b_state["enemy_hp"] = max(0, b_state["enemy_hp"] - dmg)
+            update_bars()
+            self.master.after(600, process_turn_end)
+
+        def process_turn_end():
+            global unlocked_semester
+            if b_state["player_hp"] <= 0:
+                if player.level >= 5:
+                    semesters_won_properly.append(False)  # Track as Mercy pass
+                    is_final = (sem_id == 8)
+                    if sem_id == unlocked_semester and unlocked_semester < 8:
+                        unlocked_semester += 1
+                    self.show_level_up_report(False, final=is_final)
+                else:
+                    self.show_level_up_report(False)
+            elif b_state["enemy_hp"] <= 0:
+                if b_state["monster_count"] < 3:
+                    b_state["monster_count"] += 1
+                    b_state["enemy_hp"] = ENEMY_MAX_HP + (sem_id * 10)
+                    update_bars()
+                    set_question()
+                else:
+                    semesters_won_properly.append(True)  # Track as True win
+                    is_final = (sem_id == 8)
+                    if sem_id == unlocked_semester and unlocked_semester < 8:
+                        unlocked_semester += 1
+                    self.show_level_up_report(True, final=is_final)
+            else:
+                set_question()
+
+        tk.Button(self.master,
+                text="SUBMIT ANSWER",
+                command=check_ans,
+                bg="#ffffff",
+                fg="#000000",
+                font=("Courier New", 10, "bold"), width=20).pack(pady=10)
+        tk.Button(self.master,
+                text="🏃 DROP CLASS",
+                command=self.school_menu,
+                bg="#333333",
+                fg="#ffffff",
+                font=("Courier New", 10, "bold"), width=20, relief="flat").pack(pady=5)
+        
+        battle_entry.bind("<Return>", check_ans)
+          
+        shake(enemy_sprite, count=4)
+        shake(player_sprite, count=4)
+
+        update_bars()
+        set_question()
+    
+    def show_level_up_report(self,won, final=False):
+        self.clear_screen()
+        growth = player.calculate_growth(won)
+
+        # Message for Mercy Progression
+        mercy_msg = ""
+        if not won and player.level >= 5:
+            mercy_msg = "\n(Mercy Rule: Passed with low grades, continue with caution!!)"
+
+        title = "SEMESTER PASSED" if won else "SEMESTER FAILED"
+        title_color = "white" if won else "#ff6666"
+
+        tk.Label(self.master,
+                text=f"--- {title} ---",
+                font=("Courier New", 20, "bold"),
+                bg="black",
+                fg=title_color).pack(pady=30)
+
+        if growth:
+            report = (
+                f"Result: {growth['status']}\n"
+                f"Efficiency: {growth['efficiency']}\n"
+                f"New Level: {player.level}\n\n"
+                f"HP: {growth['old_hp']} -> {player.hp} (+{growth['hp_gain']})\n"
+                f"ATK: {growth['old_atk']} -> {player.attack} (+{growth['atk_gain']})\n"
+                f"{mercy_msg}"
+            )
+            tk.Label(self.master,
+                    text=report,
+                    font=("Courier New", 12),
+                    bg="black",
+                    fg="white",
+                    justify="center").pack(pady=10)
+            
+        # Routing button
+        btn_txt = "GRADUATE" if final else "CONTINUE"
+        btn_cmd = self.show_ending if final else self.main_menu
+        tk.Button(self.master,
+                text=btn_txt,
+                command=btn_cmd,
+                bg="white",
+                fg="black",
+                font=("Courier New", 12, "bold"),
+                width=15).pack(pady=30)
                     
 
 
