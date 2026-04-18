@@ -49,12 +49,9 @@ def start_quiz(startgame_win):
                     relief = "groove"
                     )  
     def removeprevious_labels():
-        # 1. Remove the previous widgets
-        result_label.pack_forget()
-        del_chara = quiz.get_character_label()
-        del_chara.pack_forget()
-        quiz.model_title.pack_forget()
-        start_btn.pack_forget()
+        for widget in root.winfo_children():
+                widget.pack_forget()
+                widget.place_forget()
 
         # 2. Initialize the Gameplay class
         # Replace 'root' with whatever your main Tkinter window variable is named in this file
@@ -62,7 +59,7 @@ def start_quiz(startgame_win):
         game_session = Gameplay(master=root, active_quiz_instance=quiz)
 
         # 3. Call the method to display the "CONTINUE TO CAMPUS" button
-        game_session.story1(0, )
+        game_session.story1(0)
         
 
     

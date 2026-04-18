@@ -2,7 +2,7 @@ import tkinter as tk
 from quizStart_Intro import *
 import textwrap 
 import random
-
+from drawings import *
   
 '''
 After a _forget ang mga label:
@@ -88,7 +88,7 @@ QUESTIONS_BATTLE = {
 
 
 class Gameplay:
-    def __init__(self, master, active_quiz_instance ):
+    def __init__(self, master, active_quiz_instance):
         self.master = master #root
         self.characterSprite = active_quiz_instance
         
@@ -183,6 +183,7 @@ class Gameplay:
     
     #MAIN MENU & COMMANDS
     def main_menu(self):
+        global sprite
         self.clear_screen()
         tk.Label(self.master,
                 text="UNIVERSITY HUB",
@@ -305,24 +306,44 @@ class Gameplay:
             "monster_count": 1
         }
 
+        # INCREASED CANVAS SIZE: height from 250 to 400
         canvas = tk.Canvas(self.master,
-                            width=600,
-                            height=400,
-                            bg="#000000",
-                            highlightthickness=1,
-                            highlightbackground="#ffffff")
-        canvas.pack(pady = 10)
+                        width=900,
+                        height=600,
+                        bg="#000000",
+                        highlightthickness=1,
+                        highlightbackground="#ffffff")
+        canvas.pack(pady=10)
+
+        # Health Bar UI - COORDINATES ADJUSTED FOR LARGER AREA
+        # Enemy moved slightly down, Player moved further down
+        
 
 
-        enemy_sprite = canvas.create_rectangle(420, 100, 480, 150, fill="#333333", outline="#ffffff", width=2)
-        player_sprite = canvas.create_polygon(120, 350, 140, 300, 160, 280, 180, 300, 200, 350, fill="#ffffff")
+        #Player Sprite / Name
+        # Placed exactly aligned with the left edge of the player HP bar, sitting just above it.
+        #==========
+        #Enemy
+        #==========
+        #Sprite
+        enemy_sprite = tk.Label(canvas, text= enemy1, fg="white", bg="black", font=("courier", 10), justify="left")
+        enemy_spriteWindow = canvas.create_window(600, 40, window=enemy_sprite, anchor="nw")
+        #HP Bar
+        canvas.create_rectangle(46, 70, 357, 88, outline="#ffffff", width=1)
+        enemy_bar = canvas.create_rectangle(48, 72, 355, 86, fill="#ffffff", outline="")
+        
+        #==========
+        #Player
+        #==========
+        #Sprite
+        player_sprite = tk.Label(canvas, text=mary_model, fg="white", bg="black", font=("courier", 8), justify="left")
+        player_spriteWindow = canvas.create_window(148, 600, window=player_sprite, anchor="sw")
+        #HP Bar
+        canvas.create_text(545, 445, text="Mary", fill="white", font=("courier", 12, "bold"), anchor="sw")
+        canvas.create_rectangle(545, 452, 860, 472, outline="#ffffff", width=2)
+        player_bar = canvas.create_rectangle(547, 454, 858, 470, fill="#ffffff", outline="")
 
-        # UI Bars - Adjusted to match new sprite positions
-        canvas.create_rectangle(38, 78, 222, 97, outline="#ffffff", width=1)
-        canvas.create_rectangle(348, 318, 532, 337, outline="#ffffff", width=1)
-        enemy_bar = canvas.create_rectangle(40, 80, 220, 95, fill="#ffffff", outline="")
-        player_bar = canvas.create_rectangle(350, 320, 530, 335, fill="#ffffff", outline="")
-
+        # --- SHAKE EFFECT ---
         def shake(target, count=6, offset=5):
             if count > 0:
                 direction = offset if count % 2 == 0 else -offset
@@ -347,13 +368,19 @@ class Gameplay:
         battle_entry.pack(pady=5)
         battle_entry.focus_set()
 
-        
         def update_bars():
             e_max = ENEMY_MAX_HP + (sem_id * 10)
             e_perc = max(0, b_state["enemy_hp"] / e_max)
-            canvas.coords(enemy_bar, 40, 40, 40 + (e_perc * 180), 55)
+            
+            # FIXED ENEMY BAR: Starts at x=48. Max width is 307px (355 - 48).
+            canvas.coords(enemy_bar, 48, 72, 48 + (e_perc * 307), 86)
+            
             p_perc = max(0, b_state["player_hp"] / player.hp)
-            canvas.coords(player_bar, 350, 180, 350 + (p_perc * 180), 195)
+            
+            # FIXED PLAYER BAR: Starts at x=547. Max width is 311px (858 - 547).
+            canvas.coords(player_bar, 547, 454, 547 + (p_perc * 311), 470)
+
+        # ... (Rest of the logic remains exactly the same as your provided code)
 
         def set_question():
             diff = "easy" if b_state["monster_count"] == 1 else "medium" if b_state["monster_count"] == 2 else "hard"
@@ -370,11 +397,11 @@ class Gameplay:
                 b_state["player_hp"] = max(0, b_state["player_hp"] - damage_taken)
                 current_player_hp = b_state["player_hp"]
                 qlbl.config(text="WRONG! The monster attacks!")
-                shake(player_sprite)  # Player shakes on hit
+                shake(player_spriteWindow)  # Player shakes on hit
             else:
                 dmg = player.get_damage(player.intelligence)
                 b_state["enemy_hp"] = max(0, b_state["enemy_hp"] - dmg)
-                shake(enemy_sprite)  # Enemy shakes on hit
+                shake(enemy_spriteWindow)  # Enemy shakes on hit
             update_bars()
             self.master.after(600, process_turn_end)
 
@@ -419,8 +446,8 @@ class Gameplay:
         
         battle_entry.bind("<Return>", check_ans)
           
-        shake(enemy_sprite, count=4)
-        shake(player_sprite, count=4)
+        shake(enemy_spriteWindow, count=4)
+        shake(player_spriteWindow, count=4)
 
         update_bars()
         set_question()
@@ -484,6 +511,37 @@ class Gameplay:
            
 
 
-        
-            
-        
+# #INDEPENDENT TEST#
+# # --- Add this at the very bottom of gameplay.py ---
+
+if __name__ == "__main__":
+    # 1. Create the main Tkinter window
+    root = tk.Tk()
+    root.geometry("800x600")  # You can adjust the size
+    root.title("Gameplay Testing Mode")
+    root.configure(bg="black")
+    root.state("zoomed")
+
+    # 2. Create a "Mock" or dummy quiz instance.
+    # The Gameplay class requires this to get the character sprite label.
+    class MockQuizInstance:
+        def get_character_label(self):
+            # Return a simple placeholder label instead of the actual image
+            return tk.Label(root, text="[Character Sprite Placeholder]", fg="white", bg="#333333", width=30, height=10)
+        def get_character_text(self):
+            return " [ O_O ]\n  /|\\ \n  / \\ " # A simple mock ASCII sprite
+    mock_quiz = MockQuizInstance()
+
+    # 3. Initialize the Gameplay session
+    test_session = Gameplay(master=root, active_quiz_instance=mock_quiz)
+
+    # 4. Choose where you want the test to start!
+    # Uncomment the one you want to test:
+    
+    test_session.story1(0)         # Tests the typing animation and intro
+    # test_session.main_menu()     # Skips intro and goes straight to the Hub
+    # test_session.school_menu()   # Skips directly to the Year/Semester selection
+    # test_session.start_battle(1) # Skips directly to a battle (Semester 1)
+
+    # 5. Start the Tkinter loop
+    root.mainloop()
