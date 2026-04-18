@@ -16,7 +16,6 @@ def start_quiz(startgame_win):
     root.state('zoomed')
     root.iconbitmap("necromancer.ico")
     root.configure(background="black")    
-    menu1 = Gameplay(root)
     quiz = QuizFunctions(root)
     root.protocol("WM_DELETE_WINDOW", lambda: (root.quit(), root.destroy()))
 
@@ -50,12 +49,22 @@ def start_quiz(startgame_win):
                     relief = "groove"
                     )  
     def removeprevious_labels():
+        # 1. Remove the previous widgets
         result_label.pack_forget()
-        quiz.player_drawing.place_forget()
+        del_chara = quiz.get_character_label()
+        del_chara.pack_forget()
         quiz.model_title.pack_forget()
         start_btn.pack_forget()
+
+        # 2. Initialize the Gameplay class
+        # Replace 'root' with whatever your main Tkinter window variable is named in this file
+        # 'quiz' is already defined in your scope based on your snippet
+        game_session = Gameplay(master=root, active_quiz_instance=quiz)
+
+        # 3. Call the method to display the "CONTINUE TO CAMPUS" button
+        game_session.story1(0, )
         
-        menu1.story1(0, quiz)
+
     
     
     start_btn = tk.Button(root,

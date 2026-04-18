@@ -1,6 +1,5 @@
 import tkinter as tk
 from quizStart_Intro import *
-from startquiz_functions import *
 import textwrap 
 import random
 
@@ -89,11 +88,11 @@ QUESTIONS_BATTLE = {
 
 
 class Gameplay:
-    def __init__(self, master):
+    def __init__(self, master, active_quiz_instance ):
         self.master = master #root
-        self.characterSprite = QuizFunctions(self.master)
+        self.characterSprite = active_quiz_instance
         
-    def story1(self, index, quiz_result_obj):
+    def story1(self, index):
         
         Year1story_1 = tk.Label(
         self.master,
@@ -116,18 +115,13 @@ class Gameplay:
                 self.master.after(10, lambda: story1_animation(index + 1, Year1story_1))
                 
             else:
-                self.start_gameplayButton()
-  
-            # else:
-            #     if quiz_result_obj and quiz_result_obj.result:
-            #         self.master.after(5, quiz_result_obj.result.place(relx=0.5, rely=0.5, anchor="center"))
-        
+                self.start_gameplayButton()  
         
         story1_animation(index, Year1story_1)
         
     def clear_screen(self):
         for widget in self.master.winfo_children():
-                widget.destroy()
+                widget.forget()
  
         
     def start_gameplayButton(self):       
@@ -226,10 +220,10 @@ class Gameplay:
                 fg="#000000",
                 font=("Courier New", 10, "bold")).pack(side="left", padx=10)
             
-        #ISSUE
-        #########
-        # self.characterSprite.result.pack(pady = 10)
-        #########
+
+        sprite = self.characterSprite.get_character_label()
+        sprite.pack(pady = 10)
+
 
         
         
@@ -313,19 +307,21 @@ class Gameplay:
 
         canvas = tk.Canvas(self.master,
                             width=600,
-                            height=250,
+                            height=400,
                             bg="#000000",
                             highlightthickness=1,
                             highlightbackground="#ffffff")
-        canvas.pack(pady=10)
+        canvas.pack(pady = 10)
 
-        # Health Bar UI
-        enemy_sprite = canvas.create_rectangle(420, 60, 480, 110, fill="#333333", outline="#ffffff", width=2)
-        player_sprite = canvas.create_polygon(120, 210, 140, 160, 160, 140, 180, 160, 200, 210, fill="#ffffff")
-        canvas.create_rectangle(38, 38, 222, 57, outline="#ffffff", width=1)
-        canvas.create_rectangle(348, 178, 532, 197, outline="#ffffff", width=1)
-        enemy_bar = canvas.create_rectangle(40, 40, 220, 55, fill="#ffffff", outline="")
-        player_bar = canvas.create_rectangle(350, 180, 530, 195, fill="#ffffff", outline="")
+
+        enemy_sprite = canvas.create_rectangle(420, 100, 480, 150, fill="#333333", outline="#ffffff", width=2)
+        player_sprite = canvas.create_polygon(120, 350, 140, 300, 160, 280, 180, 300, 200, 350, fill="#ffffff")
+
+        # UI Bars - Adjusted to match new sprite positions
+        canvas.create_rectangle(38, 78, 222, 97, outline="#ffffff", width=1)
+        canvas.create_rectangle(348, 318, 532, 337, outline="#ffffff", width=1)
+        enemy_bar = canvas.create_rectangle(40, 80, 220, 95, fill="#ffffff", outline="")
+        player_bar = canvas.create_rectangle(350, 320, 530, 335, fill="#ffffff", outline="")
 
         def shake(target, count=6, offset=5):
             if count > 0:
@@ -374,9 +370,11 @@ class Gameplay:
                 b_state["player_hp"] = max(0, b_state["player_hp"] - damage_taken)
                 current_player_hp = b_state["player_hp"]
                 qlbl.config(text="WRONG! The monster attacks!")
+                shake(player_sprite)  # Player shakes on hit
             else:
                 dmg = player.get_damage(player.intelligence)
                 b_state["enemy_hp"] = max(0, b_state["enemy_hp"] - dmg)
+                shake(enemy_sprite)  # Enemy shakes on hit
             update_bars()
             self.master.after(600, process_turn_end)
 
@@ -464,6 +462,7 @@ class Gameplay:
         # Routing button
         btn_txt = "GRADUATE" if final else "CONTINUE"
         btn_cmd = self.show_ending if final else self.main_menu
+        
         tk.Button(self.master,
                 text=btn_txt,
                 command=btn_cmd,
