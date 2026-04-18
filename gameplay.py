@@ -79,13 +79,60 @@ semesters_won_properly = []  # NEW TRACKER FOR ENDINGS
 
 # Bypassing the quiz: Set Mary as the default player character
 player = mary
-
-QUESTIONS_BATTLE = {
-    "easy": [{"q": "What is 2 + 2?", "a": "4"}, {"q": "What color is the sky?", "a": "blue"}, {"q": "Capital of France?", "a": "paris"}],
-    "medium": [{"q": "12 x 12?", "a": "144"}, {"q": "Who wrote Romeo and Juliet?", "a": "shakespeare"}],
-    "hard": [{"q": "Square root of 256?", "a": "16"}, {"q": "Red Planet?", "a": "mars"}]
+ENEMIES = {
+    1: {
+        "Quiz 1 Slime": enemy1,
+        "Quiz 2 Goblin": enemy2,
+        "Sem 1 Boss": enemy3
+    },
+    2: {
+        "Midterm Moth": "  @_@  \n /|||\\ \n  / \\ ",
+        "Paper Phantom": "  ^o^  \n \\_|_/ \n  / \\ ",
+        "Sem 2 Boss": "  0_0  \n =|=|= \n  / \\ "
+    },
+    3: {
+        "Sleepy Specter": "  x_x  \n /| |\\ \n  / \\ ",
+        "Cramming Creep": "  -_o  \n \\| |/ \n  | | ",
+        "Sem 3 Boss": "  T_T  \n /_|_\\ \n  | | "
+    },
+    4: {
+        "Tuition Troll": "  $_$  \n /|||\\ \n  / \\ ",
+        "Thesis Terror": "  *_* \n \\_|_/ \n  / \\ ",
+        "Sem 4 Boss": "  !_!  \n =|=|= \n  / \\ "
+    },
+    "default": {
+        "Generic Grunt": "  ?_?  \n /| |\\ \n  / \\ ",
+        "Standard Spirit": "  #_#  \n \\| |/ \n  | | ",
+        "Final Fiend": "  &_&  \n /_|_\\ \n  | | "
+    }
 }
 
+QUESTIONS_BATTLE = {
+    "easy": [
+        {"q": "What is 2 + 2?", "a": "4"}, 
+        {"q": "What color is the sky?", "a": "blue"}, 
+        {"q": "Capital of France?", "a": "paris"},
+        {"q": "What is 5 + 5?", "a": "10"},
+        {"q": "How many legs does a dog have?", "a": "4"},
+        {"q": "Opposite of cold?", "a": "hot"}
+    ],
+    "medium": [
+        {"q": "12 x 12?", "a": "144"}, 
+        {"q": "Who wrote Romeo and Juliet?", "a": "shakespeare"},
+        {"q": "Capital of Japan?", "a": "tokyo"},
+        {"q": "What is 15 * 3?", "a": "45"},
+        {"q": "How many continents are there?", "a": "7"}
+    ],
+    "hard": [
+        {"q": "Square root of 256?", "a": "16"}, 
+        {"q": "Red Planet?", "a": "mars"},
+        {"q": "Largest mammal?", "a": "blue whale"},
+        {"q": "Author of 1984?", "a": "george orwell"},
+        {"q": "Symbol for Gold on the periodic table?", "a": "au"}
+    ]
+}
+
+question_usage = {}
 
 class Gameplay:
     def __init__(self, master, active_quiz_instance):
@@ -277,12 +324,13 @@ class Gameplay:
 
                 tk.Button(year_frame,
                             text=btn_text,
-                            width=15,
+                            width=20,
+                            height=2,
                             state="normal" if is_unlocked else "disabled",
                             bg=btn_bg,
                             fg=btn_fg,
                             command=lambda s=sem_num: self.start_battle(s),
-                            font=("Courier New", 9, "bold")).pack(pady=2)
+                            font=("Courier New", 10, "bold")).pack(pady=8)
 
         tk.Button(self.master,
                     text="BACK",
@@ -290,7 +338,7 @@ class Gameplay:
                     font=("Courier New", 10),
                     bg="#333333",
                     fg="white", 
-                    width=10).pack(
+                    width=12).pack(
         pady=20)
                     
                     
@@ -314,29 +362,34 @@ class Gameplay:
                         highlightthickness=1,
                         highlightbackground="#ffffff")
         canvas.pack(pady=10)
-
-        # Health Bar UI - COORDINATES ADJUSTED FOR LARGER AREA
-        # Enemy moved slightly down, Player moved further down
         
+        #CHOSEN PLAYER SPRITE
+        chosenChara = self.characterSprite.get_character_text()
 
-
-        #Player Sprite / Name
-        # Placed exactly aligned with the left edge of the player HP bar, sitting just above it.
+        #MODIFIED
         #==========
         #Enemy
         #==========
+        #EnemyInformation
+        enemy_pool = ENEMIES.get(sem_id, ENEMIES["default"])
+        enemy_list = list(enemy_pool.items())
+        enemy_name, enemy_art = enemy_list[b_state["monster_count"] - 1]
+        
         #Sprite
         enemy_sprite = tk.Label(canvas, text= enemy1, fg="white", bg="black", font=("courier", 10), justify="left")
         enemy_spriteWindow = canvas.create_window(600, 40, window=enemy_sprite, anchor="nw")
         #HP Bar
+        
         canvas.create_rectangle(46, 70, 357, 88, outline="#ffffff", width=1)
         enemy_bar = canvas.create_rectangle(48, 72, 355, 86, fill="#ffffff", outline="")
-        
+        enemy_name_tag = canvas.create_text(48, 65, text=enemy_name, fill="white", font=("courier", 12, "bold"), anchor="sw")
+
         #==========
         #Player
         #==========
+        
         #Sprite
-        player_sprite = tk.Label(canvas, text=mary_model, fg="white", bg="black", font=("courier", 8), justify="left")
+        player_sprite = tk.Label(canvas, text=chosenChara, fg="white", bg="black", font=("courier", 8), justify="left")
         player_spriteWindow = canvas.create_window(148, 600, window=player_sprite, anchor="sw")
         #HP Bar
         canvas.create_text(545, 445, text="Mary", fill="white", font=("courier", 12, "bold"), anchor="sw")
@@ -372,19 +425,29 @@ class Gameplay:
             e_max = ENEMY_MAX_HP + (sem_id * 10)
             e_perc = max(0, b_state["enemy_hp"] / e_max)
             
-            # FIXED ENEMY BAR: Starts at x=48. Max width is 307px (355 - 48).
             canvas.coords(enemy_bar, 48, 72, 48 + (e_perc * 307), 86)
             
             p_perc = max(0, b_state["player_hp"] / player.hp)
             
-            # FIXED PLAYER BAR: Starts at x=547. Max width is 311px (858 - 547).
             canvas.coords(player_bar, 547, 454, 547 + (p_perc * 311), 470)
 
-        # ... (Rest of the logic remains exactly the same as your provided code)
-
+        #MODIFIED
         def set_question():
             diff = "easy" if b_state["monster_count"] == 1 else "medium" if b_state["monster_count"] == 2 else "hard"
-            q_data = random.choice(QUESTIONS_BATTLE[diff])
+            
+            # 1. Filter out questions that have been asked 2 or more times
+            valid_questions = [q for q in QUESTIONS_BATTLE[diff] if question_usage.get(q["q"], 0) < 2]
+            
+            # 2. Fallback: If all questions in this difficulty have been asked twice, reset their counts to prevent crashing
+            if not valid_questions:
+                for q in QUESTIONS_BATTLE[diff]:
+                    question_usage[q["q"]] = 0
+                valid_questions = QUESTIONS_BATTLE[diff]
+
+            # 3. Select random question and update tracking
+            q_data = random.choice(valid_questions)
+            question_usage[q_data["q"]] = question_usage.get(q_data["q"], 0) + 1
+
             b_state["current_answer"] = q_data["a"].lower()
             qlbl.config(text=f"SEMESTER {sem_id} | EXAM {b_state['monster_count']}/3\n\nQUESTION: {q_data['q']}")
             battle_entry.delete(0, tk.END)
@@ -405,6 +468,7 @@ class Gameplay:
             update_bars()
             self.master.after(600, process_turn_end)
 
+        #MODIFIED
         def process_turn_end():
             global unlocked_semester
             if b_state["player_hp"] <= 0:
@@ -418,8 +482,18 @@ class Gameplay:
                     self.show_level_up_report(False)
             elif b_state["enemy_hp"] <= 0:
                 if b_state["monster_count"] < 3:
+                    # ADVANCE TO NEXT EXAM/MONSTER
                     b_state["monster_count"] += 1
                     b_state["enemy_hp"] = ENEMY_MAX_HP + (sem_id * 10)
+                    
+                    # Grab the updated pool, convert to list, and get the new name/art
+                    current_pool = ENEMIES.get(sem_id, ENEMIES["default"])
+                    enemy_list_updated = list(current_pool.items())
+                    new_name, new_art = enemy_list_updated[b_state["monster_count"] - 1]
+
+                    enemy_sprite.config(text=new_art)
+                    canvas.itemconfig(enemy_name_tag, text=new_name)
+
                     update_bars()
                     set_question()
                 else:
