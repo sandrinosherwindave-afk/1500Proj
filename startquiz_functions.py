@@ -31,26 +31,46 @@ class QuizFunctions:
     #     # 4. Trigger the first story sequence
     #     game.story1(0)
 
-    def get_character_label(self):
-        """
-        Creates or updates the character label and returns the widget object.
-        You can then call .pack(), .place(), or .grid() on the result.
-        """
-        # 1. If it doesn't exist yet, create the label with consistent styling
-        if self.result is None:
-            self.result = tk.Label(self.master, 
-                                   text="", 
-                                   bg="black", 
-                                   fg="white", 
-                                   font=("Courier New", 14), 
-                                   justify=tk.LEFT)
-        
-        # 2. Update the text to match the current character model
-        if hasattr(self, 'current_model'):
-            self.result.config(text=self.current_model) 
+    def get_character_label(self, parent=None):
+            """
+            Creates or updates the character label and returns the widget object.
+            You can pass a 'parent' to put this label inside a specific frame or window.
+            """
+            # Use the passed parent, or default to self.master
+            target_master = parent if parent else self.master
+
+            # 1. If it doesn't exist yet, create the label with consistent styling
+            if self.result is None:
+                self.result = tk.Label(target_master, 
+                                    text="", 
+                                    bg="black", 
+                                    fg="white", 
+                                    font=("Courier New", 14), 
+                                    justify=tk.LEFT)
+            else:
+                # If the label already exists but we want to move it to a new parent
+                # we have to re-assign it or recreate it (Tkinter labels are tied to their masters)
+                if self.result.master != target_master:
+                    self.result.destroy()
+                    self.result = tk.Label(target_master, 
+                                        text="", 
+                                        bg="black", 
+                                        fg="white", 
+                                        font=("Courier New", 14), 
+                                        justify=tk.LEFT)
             
-        # 3. Return the label object so it can be packed anywhere
-        return self.result
+            # 2. Update the text to match the current character model
+            if hasattr(self, 'current_model'):
+                self.result.config(text=self.current_model) 
+                
+            # 3. Return the label object so it can be packed anywhere
+            return self.result
+    
+    def get_character_text(self):
+        """Returns just the raw string of the current model."""
+        if hasattr(self, 'current_model'):
+            return self.current_model 
+        return ""
 
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn, introquiz):
         user = entry.get().lower()
