@@ -1,19 +1,9 @@
 import tkinter as tk
 from quizStart_Intro import *
-import textwrap 
 import random
 from drawings import *
+from gamplay_texts import *
   
-'''
-After a _forget ang mga label:
-top: 1st year
-side: display model nga na kwa ka player
-center: typing animation ka story, highlight key points
-after center animation: show a button next part (fight)
-
-
-'''
-
 damage_range = {
     "High": (15, 20),
     "Medium": (10, 12),
@@ -81,8 +71,8 @@ semesters_won_properly = []  # NEW TRACKER FOR ENDINGS
 player = mary
 ENEMIES = {
     1: {
-        "Quiz 1 Slime": enemy1,
-        "Quiz 2 Goblin": enemy2,
+        "Prelim": enemy1,
+        "Midterm": enemy2,
         "Sem 1 Boss": enemy3
     },
     2: {
@@ -107,31 +97,7 @@ ENEMIES = {
     }
 }
 
-QUESTIONS_BATTLE = {
-    "easy": [
-        {"q": "What is 2 + 2?", "a": "4"}, 
-        {"q": "What color is the sky?", "a": "blue"}, 
-        {"q": "Capital of France?", "a": "paris"},
-        {"q": "What is 5 + 5?", "a": "10"},
-        {"q": "How many legs does a dog have?", "a": "4"},
-        {"q": "Opposite of cold?", "a": "hot"}
-    ],
-    "medium": [
-        {"q": "12 x 12?", "a": "144"}, 
-        {"q": "Who wrote Romeo and Juliet?", "a": "shakespeare"},
-        {"q": "Capital of Japan?", "a": "tokyo"},
-        {"q": "What is 15 * 3?", "a": "45"},
-        {"q": "How many continents are there?", "a": "7"}
-    ],
-    "hard": [
-        {"q": "Square root of 256?", "a": "16"}, 
-        {"q": "Red Planet?", "a": "mars"},
-        {"q": "Largest mammal?", "a": "blue whale"},
-        {"q": "Author of 1984?", "a": "george orwell"},
-        {"q": "Symbol for Gold on the periodic table?", "a": "au"}
-    ]
-}
-
+#Tracker for repeating questions
 question_usage = {}
 
 class Gameplay:
@@ -340,6 +306,39 @@ class Gameplay:
                     fg="white", 
                     width=12).pack(
         pady=20)
+    def semester_intro(self, sem_id):
+        self.clear_screen()
+
+        # Create a label for the typing animation
+        intro_label = tk.Label(
+            self.master,
+            text="",
+            font=("Courier", 18, "bold"),
+            fg="white",
+            bg="black"
+        )
+        # expand=True centers the text vertically and horizontally
+        intro_label.pack(expand=True)
+
+        # 2. Fetch the specific text for this semester. 
+        # The .get() method includes a safe fallback just in case an invalid sem_id is passed.
+        intro_text = intro_messages.get(sem_id, f"Entering Semester {sem_id}...\n\nPrepare for your exams.")
+
+        def animation(index):
+            if not intro_label.winfo_exists():
+                return
+
+            if index < len(intro_text):
+                # Type the next character
+                intro_label.config(text=intro_label.cget("text") + intro_text[index])
+                # Speed of the typing (30ms per character)
+                self.master.after(30, lambda: animation(index + 1))
+            else:
+                # Once typing is completely finished, wait 1 second (1000ms), then load the battle
+                self.master.after(1000, lambda: self.start_battle(sem_id))
+        
+        # Start the animation at character index 0
+        animation(0)
                     
                     
     #BATTLE SYSTEM 
@@ -433,18 +432,24 @@ class Gameplay:
 
         #MODIFIED
         def set_question():
-            diff = "easy" if b_state["monster_count"] == 1 else "medium" if b_state["monster_count"] == 2 else "hard"
+            exam_num = b_state["monster_count"]
             
-            # 1. Filter out questions that have been asked 2 or more times
-            valid_questions = [q for q in QUESTIONS_BATTLE[diff] if question_usage.get(q["q"], 0) < 2]
+            # 1. Fetch semester data (fallback to default if semester isn't defined)
+            sem_data = SEMESTER_QUESTIONS.get(sem_id, SEMESTER_QUESTIONS["default"])
             
-            # 2. Fallback: If all questions in this difficulty have been asked twice, reset their counts to prevent crashing
+            # 2. Fetch specific exam questions (fallback to default if exam isn't defined)
+            exam_questions = sem_data.get(exam_num, SEMESTER_QUESTIONS["default"][exam_num])
+            
+            # 3. Filter out questions that have been asked 2 or more times
+            valid_questions = [q for q in exam_questions if question_usage.get(q["q"], 0) < 2]
+            
+            # 4. Fallback: Reset usage if all questions are exhausted
             if not valid_questions:
-                for q in QUESTIONS_BATTLE[diff]:
+                for q in exam_questions:
                     question_usage[q["q"]] = 0
-                valid_questions = QUESTIONS_BATTLE[diff]
+                valid_questions = exam_questions
 
-            # 3. Select random question and update tracking
+            # 5. Select random question and update tracking
             q_data = random.choice(valid_questions)
             question_usage[q_data["q"]] = question_usage.get(q_data["q"], 0) + 1
 
@@ -512,7 +517,7 @@ class Gameplay:
                 fg="#000000",
                 font=("Courier New", 10, "bold"), width=20).pack(pady=10)
         tk.Button(self.master,
-                text="🏃 DROP CLASS",
+                text="DROP CLASS",
                 command=self.school_menu,
                 bg="#333333",
                 fg="#ffffff",
