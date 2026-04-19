@@ -585,37 +585,35 @@ class Gameplay:
            
 
 
-# #INDEPENDENT TEST#
-# # --- Add this at the very bottom of gameplay.py ---
+# # #INDEPENDENT TEST#
+# # # --- Add this at the very bottom of gameplay.py ---
 
-if __name__ == "__main__":
-    # 1. Create the main Tkinter window
-    root = tk.Tk()
-    root.geometry("800x600")  # You can adjust the size
-    root.title("Gameplay Testing Mode")
-    root.configure(bg="black")
-    root.state("zoomed")
+# if __name__ == "__main__":
+#     # 1. Create the main Tkinter window
+#     root = tk.Tk()
+#     root.geometry("800x600")  # You can adjust the size
+#     root.title("Gameplay Testing Mode")
+#     root.configure(bg="black")
+#     root.state("zoomed")
 
-    # 2. Create a "Mock" or dummy quiz instance.
-    # The Gameplay class requires this to get the character sprite label.
-    class MockQuizInstance:
-        def get_character_label(self):
-            # Return a simple placeholder label instead of the actual image
-            return tk.Label(root, text="[Character Sprite Placeholder]", fg="white", bg="#333333", width=30, height=10)
-        def get_character_text(self):
-            return " [ O_O ]\n  /|\\ \n  / \\ " # A simple mock ASCII sprite
-    mock_quiz = MockQuizInstance()
+#     # 2. Create a "Mock" or dummy quiz instance.
+#     # The Gameplay class requires this to get the character sprite label.
+#     class MockQuizInstance:
+#         def get_character_label(self):
+#             # Return a simple placeholder label instead of the actual image
+#             return tk.Label(root, text="[Character Sprite Placeholder]", fg="white", bg="#333333", width=30, height=10)
+#     mock_quiz = MockQuizInstance()
 
-    # 3. Initialize the Gameplay session
-    test_session = Gameplay(master=root, active_quiz_instance=mock_quiz)
+#     # 3. Initialize the Gameplay session
+#     test_session = Gameplay(master=root, active_quiz_instance=mock_quiz)
 
-    # 4. Choose where you want the test to start!
-    # Uncomment the one you want to test:
+#     # 4. Choose where you want the test to start!
+#     # Uncomment the one you want to test:
     
-    test_session.story1(0)         # Tests the typing animation and intro
-    # test_session.main_menu()     # Skips intro and goes straight to the Hub
-    # test_session.school_menu()   # Skips directly to the Year/Semester selection
-    # test_session.start_battle(1) # Skips directly to a battle (Semester 1)
+#     test_session.story1(0)         # Tests the typing animation and intro
+#     # test_session.main_menu()     # Skips intro and goes straight to the Hub
+#     # test_session.school_menu()   # Skips directly to the Year/Semester selection
+#     # test_session.start_battle(1) # Skips directly to a battle (Semester 1)
 
-    # 5. Start the Tkinter loop
-    root.mainloop()
+#     # 5. Start the Tkinter loop
+#     root.mainloop()
