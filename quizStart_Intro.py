@@ -14,6 +14,7 @@ def start_quiz(startgame_win):
     root = tk.Tk()
     root.title("CCS Crawler")
     root.state('zoomed')
+    root.attributes("-fullscreen", True)
     root.iconbitmap("necromancer.ico")
     root.configure(background="black")    
     quiz = QuizFunctions(root)
