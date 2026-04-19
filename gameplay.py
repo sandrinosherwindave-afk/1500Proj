@@ -217,7 +217,7 @@ class Gameplay:
                 fg=hp_color).pack(pady=10)
 
         btn_frame = tk.Frame(self.master, bg="#000000")
-        btn_frame.pack(pady=30)
+        btn_frame.pack(pady=10)
         tk.Button(btn_frame,
                 text="👨‍🏫 GO TO CLASS",
                 width=18,
@@ -225,18 +225,28 @@ class Gameplay:
                 command=self.school_menu,
                 bg="#ffffff",
                 fg="#000000",
-                font=("Courier New", 10, "bold")).pack(side="left", padx=10)
+                font=("Courier New", 12, "bold")).pack(side="left", padx=10)
         tk.Button(btn_frame,
                 text="🛌 REST IN DORM",
                 width=18, height=2,
                 command=self.dorm_room,
                 bg="#ffffff",
                 fg="#000000",
-                font=("Courier New", 10, "bold")).pack(side="left", padx=10)
-            
-
+                font=("Courier New", 12, "bold")).pack(side="left", padx=10)
+        
         sprite = self.characterSprite.get_character_label()
-        sprite.pack(pady = 10)
+        sprite.config(font = ("Courier New", 10))
+        sprite.pack(pady = 15)
+
+
+        tk.Button(self.master,
+                text="QUIT GAME",
+                width=15,
+                command=self.master.destroy,
+                bg="#FFFFFF",
+                fg = "#000000",
+                font=("Courier New", 10, "bold")).pack(side="bottom", pady=(0, 90))
+
 
 
         
@@ -590,8 +600,8 @@ class Gameplay:
            
 
 
-# # #INDEPENDENT TEST#
-# # # --- Add this at the very bottom of gameplay.py ---
+# # # #INDEPENDENT TEST#
+# # # # --- Add this at the very bottom of gameplay.py ---
 
 # if __name__ == "__main__":
 #     # 1. Create the main Tkinter window
@@ -606,7 +616,7 @@ class Gameplay:
 #     class MockQuizInstance:
 #         def get_character_label(self):
 #             # Return a simple placeholder label instead of the actual image
-#             return tk.Label(root, text="[Character Sprite Placeholder]", fg="white", bg="#333333", width=30, height=10)
+#             return tk.Label(root, text=mary_model, fg="white", bg="#333333")
 #     mock_quiz = MockQuizInstance()
 
 #     # 3. Initialize the Gameplay session
