@@ -295,7 +295,7 @@ class Gameplay:
                             state="normal" if is_unlocked else "disabled",
                             bg=btn_bg,
                             fg=btn_fg,
-                            command=lambda s=sem_num: self.start_battle(s),
+                            command=lambda s=sem_num: self.semester_intro(s),
                             font=("Courier New", 10, "bold")).pack(pady=8)
 
         tk.Button(self.master,
@@ -335,7 +335,7 @@ class Gameplay:
                 self.master.after(30, lambda: animation(index + 1))
             else:
                 # Once typing is completely finished, wait 1 second (1000ms), then load the battle
-                self.master.after(1000, lambda: self.start_battle(sem_id))
+                self.master.after(3000, lambda: self.start_battle(sem_id))
         
         # Start the animation at character index 0
         animation(0)
