@@ -71,6 +71,14 @@ class QuizFunctions:
         if hasattr(self, 'current_model'):
             return self.current_model 
         return ""
+    
+    def get_character_name(self):
+        """Returns the name of the chosen character."""
+        if hasattr(self, 'character_name'):
+            return self.character_name
+        return "" # Default fallback
+    
+    
 
     def next_question(self, entry, result_label, question_label,title, btn, root, start_btn, introquiz):
         user = entry.get().lower()
@@ -98,18 +106,21 @@ class QuizFunctions:
             btn.pack_forget()
                     
             # 1. Determine Model, Title, and Text based on Score
-            if self.score == 0:
+            if self.score == 3:
                 self.current_model = mary_model
+                self.character_name = "Mary"
                 rank_text = "RANK: ACHIEVER"
                 msg_text = f"Final Score: {self.score}/3\n You Got Mary"
                 
-            elif self.score == 1:
+            elif self.score == 1 or 2:
                 self.current_model = nick_model
                 rank_text = "RANK: STREET SMART"
+                self.character_name = "Nick"
                 msg_text = f"Final Score: {self.score}/3\n You Got Nick!"
                 
-            elif self.score == 2:
+            elif self.score == 0:
                 self.current_model = john_model
+                self.character_name = "John"
                 rank_text = "RANK: ACHIEVER" 
                 msg_text = f"Final Score: {self.score}/3\n You Got John" # Fixed copy-paste error here
 

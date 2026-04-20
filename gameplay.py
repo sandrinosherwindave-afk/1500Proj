@@ -157,7 +157,7 @@ class Gameplay:
             title = "THE 'BARE MINIMUM' ENDING"
             color = "#ff4444"
             msg = (
-                f"Congratulations {player.name}...\n\n"
+                f"Congratulations {display_name.upper()}...\n\n"
                 "You technically graduated, but you relied on the mercy rule\n"
                 "for every single semester. You have the degree,\n"
                 "but you didn't actually learn a single thing.\n\n"
@@ -169,7 +169,7 @@ class Gameplay:
             title = "THE ACADEMIC ELITE"
             color = "#00ff00"
             msg = (
-                f"Incredible job, {player.name}!\n\n"
+                f"Incredible job, {display_name.upper()}!\n\n"
                 f"You conquered the university with {actual_wins} true victories.\n"
                 "You are graduating at the top of your class with honors!\n"
                 "The future looks bright."
@@ -211,15 +211,20 @@ class Gameplay:
         
     #MAIN MENU & COMMANDS
     def main_menu(self):
-        global sprite
+        global sprite, player, display_name
         self.clear_screen()
+        
+        if hasattr(self.characterSprite, 'character_name'):
+            display_name = self.characterSprite.character_name
+        else:
+            display_name = player.name
         tk.Label(self.master,
                 text="UNIVERSITY HUB",
                 font=("Courier New", 26, "bold"),
                 bg="#000000",
                 fg="#ffffff").pack(pady=40)
         tk.Label(self.master,
-                text=f"STUDENT: {player.name} | LEVEL: {player.level}",
+                text=f"STUDENT: {display_name.upper()} | LEVEL: {player.level}",
                 font=("Courier New", 12),
                 bg="#000000",
                 fg="#ffffff").pack()
@@ -299,7 +304,7 @@ class Gameplay:
         container = tk.Frame(self.master, bg="black")
         container.pack(pady=10)
 
-        # Generate 4 Years, 2 Semesters each
+        # 4 Years, 2 Semesters each
         for year in range(1, 5):
             year_frame = tk.LabelFrame(container, text=f"YEAR {year}", bg="black", fg="white",
                                         font=("Courier New", 10, "bold"), padx=10, pady=5)
@@ -334,7 +339,6 @@ class Gameplay:
     def semester_intro(self, sem_id):
         self.clear_screen()
 
-        # Create a label for the typing animation
         intro_label = tk.Label(
             self.master,
             text="",
@@ -342,11 +346,8 @@ class Gameplay:
             fg="white",
             bg="black"
         )
-        # expand=True centers the text vertically and horizontally
         intro_label.pack(expand=True)
 
-        # 2. Fetch the specific text for this semester. 
-        # The .get() method includes a safe fallback just in case an invalid sem_id is passed.
         intro_text = intro_messages.get(sem_id, f"Entering Semester {sem_id}...\n\nPrepare for your exams.")
 
         def animation(index):
@@ -356,10 +357,9 @@ class Gameplay:
             if index < len(intro_text):
                 # Type the next character
                 intro_label.config(text=intro_label.cget("text") + intro_text[index])
-                # Speed of the typing (30ms per character)
                 self.master.after(30, lambda: animation(index + 1))
             else:
-                # Once typing is completely finished, wait 1 second (1000ms), then load the battle
+                # 3 seconds
                 self.master.after(3000, lambda: self.start_battle(sem_id))
         
         # Start the animation at character index 0
@@ -378,7 +378,6 @@ class Gameplay:
             "monster_count": 1
         }
 
-        # INCREASED CANVAS SIZE: height from 250 to 400
         canvas = tk.Canvas(self.master,
                         width=900,
                         height=600,
@@ -390,7 +389,6 @@ class Gameplay:
         #CHOSEN PLAYER SPRITE
         chosenChara = self.characterSprite.get_character_text()
 
-        #MODIFIED
         #==========
         #Enemy
         #==========
@@ -615,8 +613,8 @@ class Gameplay:
            
 
 
-# # # #INDEPENDENT TEST#
-# # # # --- Add this at the very bottom of gameplay.py ---
+# # #INDEPENDENT TEST#
+# # # --- Add this at the very bottom of gameplay.py ---
 
 # if __name__ == "__main__":
 #     # 1. Create the main Tkinter window
