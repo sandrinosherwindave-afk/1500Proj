@@ -32,10 +32,6 @@ class QuizFunctions:
     #     game.story1(0)
 
     def get_character_label(self, parent=None):
-            """
-            Creates or updates the character label and returns the widget object.
-            You can pass a 'parent' to put this label inside a specific frame or window.
-            """
             # Use the passed parent, or default to self.master
             target_master = parent if parent else self.master
 
@@ -112,13 +108,13 @@ class QuizFunctions:
                 rank_text = "RANK: ACHIEVER"
                 msg_text = f"Final Score: {self.score}/3\n You Got Mary"
                 
-            elif self.score == 1 or 2:
+            elif self.score == 0:
                 self.current_model = nick_model
                 rank_text = "RANK: STREET SMART"
                 self.character_name = "Nick"
                 msg_text = f"Final Score: {self.score}/3\n You Got Nick!"
                 
-            elif self.score == 0:
+            elif self.score == 1 or 2:
                 self.current_model = john_model
                 self.character_name = "John"
                 rank_text = "RANK: ACHIEVER" 
@@ -139,13 +135,13 @@ class QuizFunctions:
             char_label = self.get_character_label()
             
             # Example 1: Packing it dynamically based on the score
-            if self.score == 0:
+            if self.score == 3:
                 char_label.pack(pady=10)
             # Example 2: Placing it at specific coordinates
-            elif self.score == 1:
-                char_label.place(pady=10)
-            elif self.score == 2:
-                char_label.place(pady=10)
+            elif self.score == 0:
+                char_label.pack(pady=10)
+            elif self.score == 1 or 2:
+                char_label.pack(pady=10)
                         
             
         

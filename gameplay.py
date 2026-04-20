@@ -11,7 +11,7 @@ damage_range = {
 }
 
 class Character:
-    def __init__(self, name, ctype, intelligence, luck, subjects, level=1, hp=100, attack=20):
+    def __init__(self, name, ctype, intelligence, luck, subjects, level=1, hp=120, attack=20):
         self.name = name
         self.ctype = ctype
         self.intelligence = intelligence
@@ -22,8 +22,10 @@ class Character:
         self.attack = attack
         self.MAX_LEVEL = 20
 
-    def get_damage(self, level_rank):
-        low, high = damage_range[level_rank]
+    # --- POLYMORPHISM: Method to be overridden by subclasses ---
+    def get_damage(self):
+        # Default damage logic
+        low, high = damage_range.get(self.intelligence, (5, 10))
         return random.randint(low, high) + (self.attack // 10)
 
     def calculate_growth(self, won_battle):
@@ -51,24 +53,52 @@ class Character:
         self.level += 1
         return data
 
+# --- INHERITANCE: Subclasses ---
+
+class Achiever(Character):
+    def __init__(self, name):
+        # Inherits and sets specific stats for Mary
+        super().__init__(name, "Achiever", "High", 5, {}, hp=100, attack=25)
+    
+
+    # POLYMORPHISM: Achievers get a "Study Bonus" to damage
+    def get_damage(self):
+        base_dmg = super().get_damage()
+        return base_dmg + 5
+
+class Athletic(Character):
+    def __init__(self, name):
+        # Inherits and sets specific stats for John
+        super().__init__(name, "Athletic", "Low", 6, {}, hp=150, attack=15)
+
+    # POLYMORPHISM: Athletics have consistent damage (less randomness)
+    def get_damage(self):
+        return 15 + (self.attack // 5)
+
+class StreetSmart(Character):
+    def __init__(self, name):
+        # Inherits and sets specific stats for Nick
+        super().__init__(name, "Street Smart", "Medium", 10, {}, hp=120, attack=20)
+        
+
+    # POLYMORPHISM: Street Smarts have a chance for a "Critical Hit" based on luck
+    def get_damage(self):
+        dmg = super().get_damage()
+        if random.random() < (self.luck / 20):
+            print("CRITICAL HIT!")
+            return dmg * 2
+        return dmg
+
 # Initial Character Templates
-mary = Character("Mary", "Achiever", "High", 5, {}, level=1, hp=100, attack=25)
-john = Character("John", "Athletic", "Low", 6, {}, level=1, hp=150, attack=15)
-nick = Character("Nick", "Street Smart", "Medium", 10, {}, level=1, hp=120, attack=20)
 
 # ---------------------------------------------------------
 # GLOBAL STATE & CONSTANTS
 # ---------------------------------------------------------
-PLAYER_MAX_HP = 100
-ENEMY_MAX_HP = 120
-unlocked_level = 1
-current_player_hp = PLAYER_MAX_HP
-unlocked_semester = 1
-semesters_won_properly = []  # NEW TRACKER FOR ENDINGS
+
 
 
 # Bypassing the quiz: Set Mary as the default player character
-player = mary
+
 ENEMIES = {
     1: {
         "Prelim": enemy1,
@@ -202,7 +232,7 @@ class Gameplay:
             closing_frame.lift()
 
             tk.Label(closing_frame, 
-                    text="GAME CLOSING\n\n...Weakshit...", 
+                    text="GAME CLOSING\n\n", 
                     font=("Courier New", 24, "bold"), 
                     bg="black", 
                     fg="white").pack(expand=True)
@@ -211,13 +241,34 @@ class Gameplay:
         
     #MAIN MENU & COMMANDS
     def main_menu(self):
-        global sprite, player, display_name
+        global sprite, player, display_name, PLAYER_MAX_HP, ENEMY_MAX_HP, unlocked_level, unlocked_semester, semesters_won_properly, current_player_hp
+        
+        ENEMY_MAX_HP = 120
+        unlocked_level = 1
+        
+        unlocked_semester = 1
+        semesters_won_properly = []  # NEW TRACKER FOR ENDINGS
+        
         self.clear_screen()
         
         if hasattr(self.characterSprite, 'character_name'):
-            display_name = self.characterSprite.character_name
+            if self.characterSprite.character_name == "Mary":
+                mary = Achiever("Mary")
+                player = mary
+                display_name = self.characterSprite.character_name
+            elif self.characterSprite.character_name == "John":   
+                john = Athletic("John")
+                player = john
+                display_name = self.characterSprite.character_name
+            elif self.characterSprite.character_name == "Nick":
+                nick = StreetSmart("Nick")
+                player = nick
+                display_name = self.characterSprite.character_name
+            
         else:
             display_name = player.name
+        PLAYER_MAX_HP = player.hp
+        current_player_hp = PLAYER_MAX_HP
         tk.Label(self.master,
                 text="UNIVERSITY HUB",
                 font=("Courier New", 26, "bold"),
@@ -267,9 +318,6 @@ class Gameplay:
                 fg = "#000000",
                 font=("Courier New", 10, "bold")).pack(side="bottom", pady=(0, 90))
 
-
-
-        
         
     def dorm_room(self):
         global current_player_hp
@@ -357,10 +405,10 @@ class Gameplay:
             if index < len(intro_text):
                 # Type the next character
                 intro_label.config(text=intro_label.cget("text") + intro_text[index])
-                self.master.after(30, lambda: animation(index + 1))
+                self.master.after(10, lambda: animation(index + 1))
             else:
-                # 3 seconds
-                self.master.after(3000, lambda: self.start_battle(sem_id))
+                # 2 seconds
+                self.master.after(600, lambda: self.start_battle(sem_id))
         
         # Start the animation at character index 0
         animation(0)
@@ -389,6 +437,7 @@ class Gameplay:
         #CHOSEN PLAYER SPRITE
         chosenChara = self.characterSprite.get_character_text()
 
+
         #==========
         #Enemy
         #==========
@@ -414,7 +463,7 @@ class Gameplay:
         player_sprite = tk.Label(canvas, text=chosenChara, fg="white", bg="black", font=("courier", 8), justify="left")
         player_spriteWindow = canvas.create_window(148, 600, window=player_sprite, anchor="sw")
         #HP Bar
-        canvas.create_text(545, 445, text="Mary", fill="white", font=("courier", 12, "bold"), anchor="sw")
+        canvas.create_text(545, 445, text=display_name, fill="white", font=("courier", 12, "bold"), anchor="sw")
         canvas.create_rectangle(545, 452, 860, 472, outline="#ffffff", width=2)
         player_bar = canvas.create_rectangle(547, 454, 858, 470, fill="#ffffff", outline="")
 
@@ -490,7 +539,7 @@ class Gameplay:
                 qlbl.config(text="WRONG! The monster attacks!")
                 shake(player_spriteWindow)  # Player shakes on hit
             else:
-                dmg = player.get_damage(player.intelligence)
+                dmg = player.get_damage()
                 b_state["enemy_hp"] = max(0, b_state["enemy_hp"] - dmg)
                 shake(enemy_spriteWindow)  # Enemy shakes on hit
             update_bars()

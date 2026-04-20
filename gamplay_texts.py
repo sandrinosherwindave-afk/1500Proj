@@ -1,48 +1,53 @@
 # Expanded Questions List
 SEMESTER_QUESTIONS = {
-    1: { # Semester 1
-        1: [ # Prelims
-            {"q": "What is 2 + 2?", "a": "4"}, 
-            {"q": "What color is the sky?", "a": "blue"}
+    1: { # Semester 1: Basics & Syntax
+        1: [ # Prelims (2 questions)
+            {"q": "Which keyword is used to create a function in Python?", "a": "def"},
+            {"q": "What is the correct file extension for Python files?", "a": ".py"}
         ],
-        2: [ # Midterms
-            {"q": "Capital of France?", "a": "paris"},
-            {"q": "What is 5 + 5?", "a": "10"}
+        2: [ # Midterms (2 questions)
+            {"q": "How do you insert COMMENTS in Python code?", "a": "#"},
+            {"q": "What is the output of print(2**3)?", "a": "8"}
         ],
-        3: [ # Finals
-            {"q": "How many legs does a dog have?", "a": "4"},
-            {"q": "Opposite of cold?", "a": "hot"}
+        3: [ # Finals (1 question)
+            {"q": "Which function is used to get input from the user?", "a": "input"}
         ]
     },
-    2: { # Semester 2
-        1: [
-            {"q": "12 x 12?", "a": "144"}, 
-            {"q": "Who wrote Romeo and Juliet?", "a": "shakespeare"}],
-        2: [
-            {"q": "Capital of Japan?", "a": "tokyo"}, 
-            {"q": "What is 15 * 3?", "a": "45"}],
-        3: [
-            {"q": "How many continents are there?", "a": "7"}, 
-            {"q": "What is 10 * 10?", "a": "100"}]
+    2: { # Semester 2: Data Types & Lists
+        1: [ # Prelims
+            {"q": "Which data type is used for True or False values?", "a": "boolean"},
+            {"q": "What method adds an element to the end of a list?", "a": "append"}],
+        2: [ # Midterms
+            {"q": "How do you start a WHILE loop in Python?", "a": "while"},
+            {"q": "What is the index of the first element in a list?", "a": "0"}],
+        3: [ # Finals
+            {"q": "Which command is used to exit a loop prematurely?", "a": "break"}]
     },
-    3: { # Semester 3
-        1: [
-            {"q": "Square root of 256?", "a": "16"}, 
-            {"q": "Red Planet?", "a": "mars"}],
-        2: [
-            {"q": "Largest mammal?", "a": "blue whale"}, 
-            {"q": "Author of 1984?", "a": "george orwell"}],
-        3: [
-            {"q": "Symbol for Gold?", "a": "au"}, 
-            {"q": "Water boils at what temp (C)?", "a": "100"}]
+    3: { # Semester 3: Intermediate Logic
+        1: [ # Prelims
+            {"q": "What keyword is used to import a module?", "a": "import"},
+            {"q": "Which operator is used for floor division?", "a": "//"}],
+        2: [ # Midterms
+            {"q": "What is a collection which is ordered and unchangeable?", "a": "tuple"},
+            {"q": "What function returns the number of items in an object?", "a": "len"}],
+        3: [ # Finals
+            {"q": "How do you start an IF statement in Python?", "a": "if"}]
     },
-    "default": { # Fallback for Semesters 4-8 to prevent crashes
-        1: [
-            {"q": "Generic Prelim Question? (ans: yes)", "a": "yes"}],
-        2: [
-            {"q": "Generic Midterm Question? (ans: yes)", "a": "yes"}],
-        3: [
-            {"q": "Generic Boss Question? (ans: yes)", "a": "yes"}]
+    4: { # Semester 4: Advanced Basics
+        1: [ # Prelims
+            {"q": "Which keyword is used to handle exceptions?", "a": "try"},
+            {"q": "What is the output of bool(0)?", "a": "false"}],
+        2: [ # Midterms
+            {"q": "What method removes whitespace from the start and end of a string?", "a": "strip"},
+            {"q": "What is the keyword for a 'do nothing' statement?", "a": "pass"}],
+        3: [ # Finals
+            {"q": "Which symbol is used for the modulo operator?", "a": "%"}]
+    },
+    # Fallback for Semesters 5-8 using the final set to ensure no crashes
+    "default": {
+        1: [{"q": "Is Python case sensitive? (yes/no)", "a": "yes"}],
+        2: [{"q": "Is Python an interpreted language? (yes/no)", "a": "yes"}],
+        3: [{"q": "Can a list contain different data types? (yes/no)", "a": "yes"}]
     }
 }
 
