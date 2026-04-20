@@ -7,7 +7,7 @@ startgame_win.title("CCS CRAWLER")
 startgame_win.geometry("400x300")
 startgame_win.iconbitmap("necromancer.ico")
 startgame_win.configure(bg="black")
-startgame_win.state('zoomed')
+startgame_win.state('zoomed')    
 
 def start():
     def intro():
@@ -21,27 +21,30 @@ def start():
                     fg= "#FFFFFF", 
                     bg="black")
 
-    
+
     button_start = tk.Button(
         startgame_win,
-        text = "Start Game",
-        width=10, 
-        height=1, 
-        font = ("Courier New", 15),
-        command = start_quiz,
+        text = ">>> PRESS ANY KEY TO START GAME <<<",
+        font = ("Courier New", 15, "bold"),
+        height = 1,
         bg = "black",
-        fg ="white",
-        relief= "groove"
-    )    
+        fg = "white",
+        relief = "solid",
+        command= start_quiz,
+        )
+
+
     
     quit_game = tk.Button(
         startgame_win,
         text = "Quit",
+        font = ("Courier New",10, "bold"),
         command = lambda: startgame_win.destroy(),
-        bg = "black",
-        fg = "white",
-        relief = "groove"
-        
+        bg = "gray",
+        fg = "black",
+        width = 10,
+        height = 1,
+        relief = "solid"
     )
         
     intro_story = tk.Label(
@@ -52,7 +55,7 @@ def start():
         bg = "black"
     )
     
-    startgame_win.bind("<Return>", lambda event: button_start.invoke())    
+    startgame_win.bind("<Key>", lambda event: button_start.invoke())    
     label.pack(pady = 10)
     intro_story.pack(pady =10, padx= 5)
     

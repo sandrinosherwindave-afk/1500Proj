@@ -193,7 +193,22 @@ class Gameplay:
                 fg="white",
                 font=("Courier New", 12)).pack(
             pady=30)
-    
+                
+    def exit_game(self):
+            closing_frame = tk.Frame(self.master, bg="black")
+            
+            closing_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+            
+            closing_frame.lift()
+
+            tk.Label(closing_frame, 
+                    text="GAME CLOSING\n\n...Weakshit...", 
+                    font=("Courier New", 24, "bold"), 
+                    bg="black", 
+                    fg="white").pack(expand=True)
+
+            self.master.after(500, self.master.destroy)
+        
     #MAIN MENU & COMMANDS
     def main_menu(self):
         global sprite
@@ -242,7 +257,7 @@ class Gameplay:
         tk.Button(self.master,
                 text="QUIT GAME",
                 width=15,
-                command=self.master.destroy,
+                command=self.exit_game,
                 bg="#FFFFFF",
                 fg = "#000000",
                 font=("Courier New", 10, "bold")).pack(side="bottom", pady=(0, 90))

@@ -31,7 +31,11 @@ def start_quiz(startgame_win):
                     font=("Courier New",),
                     bg = "black",
                     fg = "white",
+                    insertbackground="white",
+                    justify="center"
                     )
+
+    
 
     result_label = tk.Label(
         root,
@@ -42,11 +46,11 @@ def start_quiz(startgame_win):
     )
 
     btn = tk.Button(root,
-                    text=">-Submit-<",
-                    font = ("Courier New",9),
+                    text=">> ✅Submit <<",
+                    font = ("Courier New",10),
                     command= quiz.next_question,
-                    bg = "black",
-                    fg = "white",
+                    bg = "white",
+                    fg = "black",
                     relief = "groove"
                     )  
     def removeprevious_labels():
@@ -130,7 +134,7 @@ def start_quiz(startgame_win):
     title.pack(pady=10)
     introquiz_animations(0, introquiz)
     introquiz.pack(pady=5)
-    def quiz_packs(): question_label.pack(pady=20), entry.pack(), result_label.pack(pady=10), btn.pack(pady=8)
+    def quiz_packs(): question_label.pack(pady=20), entry.pack(), entry.focus_set(), result_label.pack(pady=10), btn.pack(pady=8)
     root.after(10, quiz_packs)
 
 
